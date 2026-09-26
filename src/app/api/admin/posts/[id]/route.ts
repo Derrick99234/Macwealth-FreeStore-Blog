@@ -70,20 +70,30 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params;
+  try {
+    const { id } = await params;
 
-  const existing = await prisma.post.findUnique({ where: { id } });
-  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const existing = await prisma.post.findUnique({ where: { id } });
+    if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (existing.categoryId) {
-    await prisma.category.update({ where: { id: existing.categoryId }, data: { postCount: { decrement: 1 } } });
+    if (existing.categoryId) {
+      await prisma.category.update({
+        where: { id: existing.categoryId },
+        data: { postCount: { decrement: 1 } },
+      }).catch(() => {});
+    }
+
+    await prisma.post.delete({ where: { id } });
+
+    if (session.user.id) {
+      await prisma.activityLog.create({
+        data: { action: "DELETE_POST", userId: session.user.id, postId: id },
+      }).catch(() => {});
+    }
+
+    return NextResponse.json({ message: "Deleted" });
+  } catch (err: any) {
+    console.error("Failed to delete post:", err);
+    return NextResponse.json({ error: "Failed to delete post" }, { status: 500 });
   }
-
-  await prisma.post.delete({ where: { id } });
-
-  await prisma.activityLog.create({
-    data: { action: "DELETE_POST", userId: session.user.id, postId: id },
-  });
-
-  return NextResponse.json({ message: "Deleted" });
 }

@@ -29,7 +29,6 @@ export async function GET() {
     prisma.subscriber.count({ where: { status: "ACTIVE" } }),
     prisma.contactInquiry.count({ where: { read: false } }),
     prisma.post.findMany({
-      where: { createdAt: { gte: last30 } },
       orderBy: { createdAt: "desc" },
       take: 5,
       include: { author: { select: { name: true } } },

@@ -39,9 +39,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
+    const authorId = session.user.id || (await prisma.user.findFirst({ where: { email: session.user.email || undefined } }))?.id || (await prisma.user.findFirst({ where: { role: "ADMIN" } }))?.id;
+    if (!authorId) return NextResponse.json({ error: "No author found" }, { status: 400 });
+
     const body = await request.json();
     const { title, content, excerpt, featuredImage, status, categoryId, tags, seoDescription } = body;
 
@@ -61,7 +64,7 @@ export async function POST(request: NextRequest) {
         excerpt: excerpt || null,
         featuredImage: featuredImage || null,
         status: status || "DRAFT",
-        authorId: session.user.id,
+        authorId,
         categoryId: categoryId || null,
         tags: tags || null,
         seoDescription: seoDescription || null,

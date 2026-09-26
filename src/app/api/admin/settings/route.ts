@@ -51,12 +51,13 @@ export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
 
-    if (body.adminEmail || body.adminName) {
+    if (body.adminEmail || body.adminName || body.adminImage !== undefined) {
       await prisma.user.updateMany({
         where: { role: "ADMIN" },
         data: {
           ...(body.adminName && { name: body.adminName }),
           ...(body.adminEmail && { email: body.adminEmail }),
+          ...(body.adminImage !== undefined && { image: body.adminImage }),
         },
       });
     }
