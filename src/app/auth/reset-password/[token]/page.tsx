@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function ResetPasswordPage() {
   const params = useParams();
@@ -14,8 +15,14 @@ export default function ResetPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== confirm) { setError("Passwords do not match"); return; }
-    if (password.length < 6) { setError("Password must be at least 6 characters"); return; }
+    if (password !== confirm) {
+      setError("Passwords do not match");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
     setLoading(true);
     setError("");
 
@@ -32,7 +39,7 @@ export default function ResetPasswordPage() {
         setError(data.error || "Reset failed");
       }
     } catch {
-      setError("Something went wrong");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -40,32 +47,69 @@ export default function ResetPasswordPage() {
 
   if (done) {
     return (
-      <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-lg text-center">
-        <h1 className="text-display-lg-mobile text-primary font-display-lg mb-md">Password Reset</h1>
-        <p className="text-on-surface-variant text-meta-data font-meta-data mb-md">Your password has been reset successfully.</p>
-        <a href="/auth/signin" className="bg-primary text-on-primary font-ui-button text-ui-button px-lg py-sm rounded-lg inline-block hover:opacity-90">Sign In</a>
+      <div className="bg-[#121620]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl text-center">
+        <h1 className="text-2xl font-bold text-white mb-2">Password Reset Successful</h1>
+        <p className="text-slate-400 text-sm mb-6">
+          Your password has been reset. You can now sign in with your new password.
+        </p>
+        <Link
+          href="/auth/signin"
+          className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-6 py-3 rounded-xl inline-block transition-all"
+        >
+          Proceed to Sign In
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-lg">
-      <div className="text-center mb-lg">
-        <h1 className="text-display-lg-mobile text-primary font-display-lg">Set New Password</h1>
-        <p className="text-on-surface-variant text-meta-data font-meta-data mt-xs">Enter your new password below.</p>
+    <div className="bg-[#121620]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold text-white tracking-tight">Set New Password</h1>
+        <p className="text-slate-400 text-sm mt-1.5">Enter your new secure password below</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-md">
-        {error && <div className="bg-error-container text-error text-ui-label font-ui-label px-md py-sm rounded-lg">{error}</div>}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl">
+            {error}
+          </div>
+        )}
+
         <div>
-          <label className="block text-ui-label text-on-surface-variant font-ui-label mb-xs">New Password</label>
-          <input className="w-full px-md py-sm bg-surface-container border border-outline-variant rounded-lg font-ui-label text-ui-label focus:outline-none focus:ring-2 focus:ring-primary/50" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+            New Password
+          </label>
+          <input
+            className="w-full px-4 py-3 bg-[#0a0c10] border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+            type="password"
+            placeholder="At least 6 characters"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
+
         <div>
-          <label className="block text-ui-label text-on-surface-variant font-ui-label mb-xs">Confirm Password</label>
-          <input className="w-full px-md py-sm bg-surface-container border border-outline-variant rounded-lg font-ui-label text-ui-label focus:outline-none focus:ring-2 focus:ring-primary/50" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+            Confirm Password
+          </label>
+          <input
+            className="w-full px-4 py-3 bg-[#0a0c10] border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+            type="password"
+            placeholder="Repeat new password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            required
+          />
         </div>
-        <button type="submit" disabled={loading} className="w-full bg-primary text-on-primary font-ui-button text-ui-button py-sm rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50">
-          {loading ? "Resetting..." : "Reset Password"}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full mt-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 cursor-pointer"
+        >
+          {loading ? "Resetting..." : "Update Password"}
         </button>
       </form>
     </div>
