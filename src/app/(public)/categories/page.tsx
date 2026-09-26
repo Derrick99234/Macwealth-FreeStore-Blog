@@ -1,247 +1,99 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { images } from "@/lib/images";
+import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
+
+export const revalidate = 60;
 
 export default async function CategoriesPage() {
-  const allCats = await prisma.category.findMany({ orderBy: { postCount: "desc" } });
-  const featured = allCats[0];
-  const rest = allCats.slice(1);
+  const categories = await prisma.category.findMany({
+    orderBy: { postCount: "desc" },
+    include: {
+      _count: { select: { posts: true } },
+    },
+  });
 
   return (
-    <>
+    <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
       <Navbar />
-      <main className="min-h-screen">
-        <section className="relative min-h-[400px] flex items-center bg-surface-container-low">
-          <div className="relative z-10 max-w-container-max mx-auto px-md w-full">
-            <div className="max-w-2xl">
-              <h1 className="text-display-lg text-on-surface font-display-lg mb-sm">
-                Explore the World of <span className="text-primary">Insight</span>
+
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
+        {/* Header Hero */}
+        <section className="mb-14">
+          <div className="bg-gradient-to-br from-[#121622] via-[#0f121a] to-[#0c0e14] border border-white/[0.08] rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 max-w-2xl space-y-4">
+              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+                Explore by <span className="text-indigo-400">Category</span>
               </h1>
-              <p className="text-body-main text-on-surface-variant font-body-main mb-lg">
-                Dive deep into specialized knowledge. Browse our curated
-                categories and find the perspectives that matter to you.
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                Dive deep into specialized archives. Every category is curated for intellectual clarity, technological foresight, and refined design.
               </p>
-              <div className="flex gap-xs">
-                <span className="px-sm py-xs bg-primary-fixed text-on-primary-fixed-variant rounded-full text-meta-data font-semibold">
-                  7 Active Topics
+              <div className="flex flex-wrap gap-3 pt-2">
+                <span className="px-3.5 py-1.5 bg-[#171b26] border border-white/10 rounded-full text-xs font-medium text-slate-300">
+                  {categories.length} Curated Topics
                 </span>
-                <span className="px-sm py-xs bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-meta-data font-semibold">
-                  450+ Articles
+                <span className="px-3.5 py-1.5 bg-[#171b26] border border-white/10 rounded-full text-xs font-medium text-slate-300">
+                  Active Archival Index
                 </span>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="max-w-container-max mx-auto px-md py-xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-lg gap-md">
-            <div>
-              <h2 className="text-article-title text-on-surface font-article-title">
-                Browse by Topic
-              </h2>
-              <p className="text-ui-label text-on-surface-variant font-ui-label">
-                Carefully organized for intellectual curiosity.
-              </p>
-            </div>
-            <div className="flex bg-surface-container rounded-full p-1 border border-outline-variant">
-              <button className="px-lg py-2 bg-surface-container-lowest text-primary rounded-full shadow-sm text-ui-label font-bold transition-all">
-                Grid View
-              </button>
-              <button className="px-lg py-2 text-on-surface-variant hover:text-on-surface rounded-full text-ui-label transition-all">
-                List Directory
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-md">
-            <div className="md:col-span-8 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest h-[400px] cursor-pointer transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${images.categories.ai})` }} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-lg w-full flex justify-between items-end text-white">
+        {/* Categories Grid */}
+        <section className="mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map((cat, idx) => (
+              <Link
+                key={cat.id}
+                href={`/?category=${cat.slug}`}
+                className="group bg-[#10141e] border border-white/[0.07] hover:border-indigo-500/40 hover:bg-[#141926] rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between shadow-lg relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/[0.03] group-hover:bg-indigo-500/10 rounded-bl-full transition-all duration-500" />
                 <div>
-                  <span className="text-meta-data bg-primary px-sm py-1 rounded mb-xs inline-block font-meta-data">
-                    Featured
-                  </span>
-                  <h3 className="text-article-title font-article-title mb-xs">
-                    {featured.name}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-mono text-slate-500 group-hover:text-indigo-400 transition-colors">
+                      0{idx + 1}
+                    </span>
+                    <span className="text-xs bg-[#171b26] border border-white/10 text-slate-300 px-2.5 py-1 rounded-full">
+                      {cat._count?.posts || cat.postCount} Stories
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors mb-2">
+                    {cat.name}
                   </h3>
-                  <p className="text-ui-label font-ui-label opacity-90 max-w-md">
-                    {featured.description}
+                  <p className="text-xs text-slate-400 leading-relaxed mb-6">
+                    {cat.description || "In-depth explorations and critical analysis."}
                   </p>
                 </div>
-                <div className="text-right">
-                  <span className="block text-display-lg-mobile font-display-lg leading-none">
-                    {featured.postCount}
-                  </span>
-                  <span className="text-meta-data uppercase tracking-widest opacity-80 font-meta-data">
-                    Posts
-                  </span>
-                </div>
-              </div>
-            </div>
 
-            {/* Design Systems */}
-            <div className="md:col-span-4 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest h-[400px] cursor-pointer transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${images.categories.design})` }} />
-              <div className="absolute inset-0 bg-primary-fixed-dim/20" />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
-              <div className="absolute inset-0 p-lg flex flex-col justify-between items-start">
-                <span className="material-symbols-outlined text-4xl text-on-primary drop-shadow-md">
-                  {rest[0].icon}
-                </span>
-                <div>
-                  <h3 className="text-article-title-mobile text-white font-article-title-mobile mb-xs">
-                    {rest[0].name}
-                  </h3>
-                  <span className="text-ui-label text-white/90 font-ui-label">
-                    {rest[0].postCount} Articles
+                <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-medium text-indigo-400 group-hover:text-indigo-300">
+                  <span>Browse Category</span>
+                  <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+                    arrow_forward
                   </span>
                 </div>
-              </div>
-            </div>
-
-            {/* Technology */}
-            <div className="md:col-span-4 group rounded-xl border border-outline-variant bg-surface-container-lowest p-lg flex flex-col justify-between h-[300px] cursor-pointer transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div>
-                <span className="material-symbols-outlined text-primary text-3xl mb-sm">
-                  {rest[1].icon}
-                </span>
-                <h3 className="text-article-title-mobile text-on-surface font-article-title-mobile mb-xs">
-                  {rest[1].name}
-                </h3>
-                <p className="text-ui-label text-on-surface-variant font-ui-label">
-                  {rest[1].description}
-                </p>
-              </div>
-              <div className="flex justify-between items-center pt-md border-t border-outline-variant">
-                <span className="text-meta-data text-on-surface-variant font-meta-data">
-                  {rest[1].postCount} Posts
-                </span>
-                <span className="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">
-                  arrow_forward
-                </span>
-              </div>
-            </div>
-
-            {/* Modern Lifestyle */}
-            <div className="md:col-span-4 group relative rounded-xl border border-outline-variant bg-surface-container-lowest p-lg flex flex-col justify-between h-[300px] cursor-pointer overflow-hidden transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${images.categories.lifestyle})` }} />
-              <div className="relative z-10">
-                <span className="material-symbols-outlined text-tertiary text-3xl mb-sm">
-                  {rest[2].icon}
-                </span>
-                <h3 className="text-article-title-mobile text-on-surface font-article-title-mobile mb-xs">
-                  {rest[2].name}
-                </h3>
-                <p className="text-ui-label text-on-surface-variant font-ui-label">
-                  {rest[2].description}
-                </p>
-              </div>
-              <div className="relative z-10 flex justify-between items-center pt-md border-t border-outline-variant">
-                <span className="text-meta-data text-on-surface-variant font-meta-data">
-                  {rest[2].postCount} Posts
-                </span>
-                <span className="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">
-                  arrow_forward
-                </span>
-              </div>
-            </div>
-
-            {/* Global Economy */}
-            <div className="md:col-span-4 group rounded-xl border border-outline-variant bg-surface-container-lowest p-lg flex flex-col justify-between h-[300px] cursor-pointer transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div>
-                <span className="material-symbols-outlined text-secondary text-3xl mb-sm">
-                  {rest[3].icon}
-                </span>
-                <h3 className="text-article-title-mobile text-on-surface font-article-title-mobile mb-xs">
-                  {rest[3].name}
-                </h3>
-                <p className="text-ui-label text-on-surface-variant font-ui-label">
-                  {rest[3].description}
-                </p>
-              </div>
-              <div className="flex justify-between items-center pt-md border-t border-outline-variant">
-                <span className="text-meta-data text-on-surface-variant font-meta-data">
-                  {rest[3].postCount} Posts
-                </span>
-                <span className="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">
-                  arrow_forward
-                </span>
-              </div>
-            </div>
-
-            {/* Philosophy & Ethics */}
-            <div className="md:col-span-6 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest h-[350px] cursor-pointer transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${images.categories.philosophy})` }} />
-              <div className="absolute inset-0 bg-black/40" />
-              <div className="absolute inset-0 p-lg flex flex-col justify-end">
-                <h3 className="text-article-title text-white font-article-title mb-xs">
-                  {rest[4].name}
-                </h3>
-                <p className="text-ui-label text-white/80 font-ui-label mb-sm">
-                  {rest[4].description}
-                </p>
-                <span className="text-meta-data text-white/60 font-meta-data">
-                  {rest[4].postCount} Articles
-                </span>
-              </div>
-            </div>
-
-            {/* Future of Work */}
-            <div className="md:col-span-6 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest h-[350px] cursor-pointer transition-all hover:shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.08)]">
-              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${images.categories.futureOfWork})` }} />
-              <div className="absolute inset-0 bg-primary/20" />
-              <div className="absolute inset-0 p-lg flex flex-col justify-end">
-                <h3 className="text-article-title text-white font-article-title mb-xs">
-                  {rest[5].name}
-                </h3>
-                <p className="text-ui-label text-white/80 font-ui-label mb-sm">
-                  {rest[5].description}
-                </p>
-                <span className="text-meta-data text-white/60 font-meta-data">
-                  {rest[5].postCount} Articles
-                </span>
-              </div>
-            </div>
+              </Link>
+            ))}
           </div>
         </section>
 
-        <section className="bg-inverse-surface py-xl">
-          <div className="max-w-container-max mx-auto px-md">
-            <div className="flex flex-col md:flex-row items-center gap-lg">
-              <div className="md:w-1/2">
-                <h2 className="text-display-lg-mobile text-on-primary font-display-lg mb-sm">
-                  Never miss an update.
-                </h2>
-                <p className="text-body-main text-on-secondary-fixed-variant opacity-80 font-body-main">
-                  Get the best of Macwealth FreeStore delivered to your inbox every
-                  Thursday. No spam, just deep-dives.
-                </p>
-              </div>
-              <div className="md:w-1/2 w-full">
-                <form className="flex flex-col sm:flex-row gap-xs">
-                  <input
-                    className="flex-grow px-lg py-3 rounded bg-surface-container-lowest border-none focus:ring-2 focus:ring-primary text-ui-label"
-                    placeholder="Enter your email"
-                    type="email"
-                  />
-                  <button
-                    type="submit"
-                    className="px-xl py-3 bg-primary text-on-primary font-ui-button text-ui-button rounded hover:brightness-110 transition-all"
-                  >
-                    Subscribe Now
-                  </button>
-                </form>
-                <p className="mt-xs text-meta-data text-on-secondary-fixed-variant opacity-60 font-meta-data">
-                  By subscribing, you agree to our Privacy Policy.
-                </p>
-              </div>
-            </div>
+        {/* Newsletter Section */}
+        <section className="bg-gradient-to-br from-[#121622] via-[#10131d] to-[#0c0f16] border border-indigo-500/20 rounded-3xl p-8 sm:p-12 mb-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Stay ahead of every topic
+            </h2>
+            <NewsletterForm variant="banner" />
           </div>
         </section>
       </main>
+
       <Footer />
-    </>
+    </div>
   );
 }

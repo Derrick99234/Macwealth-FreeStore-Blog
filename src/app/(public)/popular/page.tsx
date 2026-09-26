@@ -1,250 +1,197 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { images } from "@/lib/images";
+import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
-function formatDate(d: Date) {
-  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
+export const revalidate = 60;
 
-function readTime(content: string) {
-  return `${Math.max(1, Math.ceil(content.split(/\s+/).length / 200))} min read`;
+function formatViews(count: number) {
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1)}k views`;
+  }
+  return `${count} views`;
 }
 
 export default async function PopularPage() {
-  const allTrending = await prisma.post.findMany({
+  const trending = await prisma.post.findMany({
     where: { status: "PUBLISHED" },
     orderBy: { viewCount: "desc" },
-    take: 15,
-    include: { author: { select: { id: true, name: true, image: true } }, category: true },
+    take: 12,
+    include: {
+      author: { select: { name: true } },
+      category: { select: { name: true, slug: true } },
+    },
   });
 
-  const featured = allTrending[0];
-  const side = allTrending.slice(1, 3);
-  const grid = allTrending.slice(3, 7);
-  const rising = allTrending.slice(7, 15);
+  const topPost = trending[0];
+  const sidePosts = trending.slice(1, 3);
+  const remaining = trending.slice(3);
 
   return (
-    <>
+    <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
       <Navbar />
-      <main className="max-w-container-max mx-auto px-md py-lg">
-        <section className="mb-lg border-b border-outline-variant pb-md">
-          <h1 className="text-display-lg text-on-surface font-display-lg mb-xs">
-            Popular Stories
+
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
+        {/* Header */}
+        <section className="mb-12">
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-3">
+            Popular Perspectives
           </h1>
-          <p className="text-ui-label text-on-surface-variant font-ui-label max-w-2xl">
-            The most influential perspectives and deeply researched insights
-            trending this month in our community.
+          <p className="text-slate-400 text-sm sm:text-base max-w-2xl">
+            The most widely read and discussed insights across technology, architectural theory, and cognitive performance.
           </p>
         </section>
 
-        <div className="bento-grid grid grid-cols-12 gap-md">
-          <article className="col-span-12 lg:col-span-8 group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
-            <div className="grid md:grid-cols-2 h-full">
-              <div className="relative h-64 md:h-full overflow-hidden">
+        {/* Top Bento Section */}
+        {topPost && (
+          <section className="mb-14 grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* #1 Trending Card */}
+            <article className="lg:col-span-8 bg-[#10141e] border border-white/[0.08] rounded-3xl overflow-hidden hover:border-indigo-500/40 transition-all flex flex-col md:flex-row group shadow-2xl">
+              <div className="md:w-1/2 relative aspect-[16/10] md:aspect-auto overflow-hidden">
                 <img
-                  src={images.popular.trending1}
-                  alt={featured.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  src={topPost.featuredImage || "/images/hero-illustration.jpg"}
+                  alt={topPost.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute top-sm left-sm bg-primary text-on-primary px-3 py-1 rounded-full font-ui-label text-xs font-bold uppercase tracking-widest shadow-md">
-                  #1 Trending
+                <div className="absolute top-4 left-4 bg-amber-500/90 backdrop-blur-md text-black font-bold text-xs px-3 py-1 rounded-full shadow-lg">
+                  Rank 01
                 </div>
               </div>
-              <div className="p-lg flex flex-col justify-center">
-                <div className="flex items-center gap-xs mb-sm">
-                  <span className="text-meta-data text-primary font-bold font-meta-data">
-                    {featured.category?.name || "Featured"}
-                  </span>
-                  <span className="text-outline-variant">&bull;</span>
-                  <span className="text-meta-data text-on-surface-variant font-meta-data">
-                    {readTime(featured.content)}
-                  </span>
-                </div>
-                <h2 className="text-article-title text-on-surface font-article-title mb-sm group-hover:text-primary transition-colors">
-                  {featured.title}
-                </h2>
-                <p className="text-body-main text-on-surface-variant font-body-main line-clamp-3 mb-md">
-                  {featured.excerpt}
-                </p>
-                <div className="flex items-center justify-between mt-auto pt-md border-t border-outline-variant">
-                  <div className="flex items-center gap-xs">
-                    <img
-                      src={featured.author?.image || images.popular.trending1Author}
-                      alt={featured.author?.name || ""}
-                      className="w-8 h-8 rounded-full object-cover border border-outline-variant"
-                    />
-                    <span className="text-ui-label text-ui-label font-bold font-ui-label">
-                      {featured.author?.name}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-md text-on-surface-variant">
-                    <span className="flex items-center gap-1 text-meta-data font-meta-data">
-                      <span className="material-symbols-outlined text-sm">
-                        visibility
-                      </span>
-                      {(featured.viewCount / 1000).toFixed(1)}k
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
 
-          {side.map((item, i) => (
-            <article
-              key={item.id}
-              className="col-span-12 sm:col-span-6 lg:col-span-2 group bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col hover:shadow-md transition-all"
-            >
-              <div className="mb-sm flex items-center justify-between">
-                <span className="bg-surface-container-high px-2 py-0.5 rounded font-ui-label text-[10px] font-bold uppercase text-on-surface-variant">
-                  #{i + 2} Trending
-                </span>
-                <span className="text-meta-data text-on-surface-variant font-meta-data">
-                  {readTime(item.content)}
-                </span>
-              </div>
-              <h3 className="text-article-title-mobile text-on-surface font-article-title-mobile mb-xs group-hover:text-primary transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-meta-data text-on-surface-variant font-meta-data line-clamp-2 mb-md">
-                {item.excerpt}
-              </p>
-              <div className="mt-auto flex items-center justify-between">
-                <span className="text-ui-label text-ui-label text-primary font-bold font-ui-label">
-                  {item.category?.name || "Featured"}
-                </span>
-                <div className="flex items-center gap-xs text-on-surface-variant">
-                  <span className="material-symbols-outlined text-sm">
-                    visibility
+              <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    {topPost.category && (
+                      <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full">
+                        {topPost.category.name}
+                      </span>
+                    )}
+                    <span className="text-xs text-amber-400 font-mono">
+                      {formatViews(topPost.viewCount)}
+                    </span>
+                  </div>
+
+                  <Link href={`/${topPost.slug}`}>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors leading-snug">
+                      {topPost.title}
+                    </h2>
+                  </Link>
+
+                  <p className="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">
+                    {topPost.excerpt || topPost.content.slice(0, 150)}...
+                  </p>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-500">
+                  <span className="text-slate-300 font-medium">
+                    {topPost.author.name}
                   </span>
-                  <span className="text-meta-data font-meta-data">
-                    {(item.viewCount / 1000).toFixed(1)}k
-                  </span>
+                  <Link
+                    href={`/${topPost.slug}`}
+                    className="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center gap-1"
+                  >
+                    Read story
+                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  </Link>
                 </div>
               </div>
             </article>
-          ))}
 
-          <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
-            {grid.map((item, i) => {
-              const bg = [images.popular.card4, images.popular.card5, images.popular.card6, images.popular.card7][i];
-              return (
-              <article key={item.id} className="group cursor-pointer">
-                <div className="aspect-video rounded-lg overflow-hidden border border-outline-variant mb-sm relative">
-                  <img
-                    src={bg}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute bottom-2 left-2 bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-bold">
-                    #{i + 4}
-                  </div>
-                </div>
-                <h4 className="text-ui-label text-ui-label text-on-surface font-ui-label group-hover:text-primary transition-colors line-clamp-2">
-                  {item.title}
-                </h4>
-                <div className="mt-xs flex items-center gap-sm text-on-surface-variant">
-                  <span className="text-meta-data font-meta-data">
-                    {(item.viewCount / 1000).toFixed(1)}k views
-                  </span>
-                  <span className="text-outline-variant">&bull;</span>
-                  <span className="text-meta-data font-meta-data">{readTime(item.content)}</span>
-                </div>
-              </article>
-            );
-          })}
-          </div>
-        </div>
-
-        {rising.length > 0 && (
-          <section className="mt-xl">
-            <div className="flex justify-between items-end mb-lg">
-              <div>
-                <h2 className="text-display-lg-mobile text-on-surface font-display-lg">
-                  Rising Insights
-                </h2>
-                <p className="text-meta-data text-on-surface-variant font-meta-data">
-                  Fresh perspectives gaining traction in our community.
-                </p>
-              </div>
-            </div>
-            <div className="space-y-md">
-              {rising.map((item, i) => {
-                const risingImg = [images.popular.card4, images.popular.card5, images.popular.card6, images.popular.card7,
-                  images.popular.trending1, images.popular.trending1Author, images.categories.ai, images.categories.design][i % 8];
-                return (
-                  <a
-                    key={item.id}
-                    href={`/${item.slug}`}
-                    className="flex items-center gap-md group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:shadow-md transition-all"
-                  >
-                    <span className="text-display-lg-mobile text-outline font-display-lg font-bold w-10 shrink-0">
-                      #{i + 8}
-                    </span>
-                    <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden border border-outline-variant">
-                      <img
-                        src={item.featuredImage || risingImg}
-                        alt={item.title}
-                        className="w-full h-full object-cover"
-                      />
+            {/* Side Highlights (#2 & #3) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              {sidePosts.map((post, idx) => (
+                <article
+                  key={post.id}
+                  className="bg-[#10141e] border border-white/[0.08] rounded-3xl p-6 hover:border-indigo-500/40 transition-all flex flex-col justify-between group shadow-xl flex-1"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-mono font-bold text-slate-400 bg-[#161a26] px-2.5 py-1 rounded-full border border-white/5">
+                        Rank 0{idx + 2}
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">
+                        {formatViews(post.viewCount)}
+                      </span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-xs mb-xs">
-                        <span className="text-meta-data text-primary font-bold font-meta-data uppercase tracking-tight">
-                          {item.category?.name || "Featured"}
-                        </span>
-                        <span className="text-outline-variant">&bull;</span>
-                        <span className="text-meta-data text-outline font-meta-data">
-                          {readTime(item.content)}
-                        </span>
-                      </div>
-                      <h3 className="text-article-title-mobile text-on-surface font-article-title-mobile group-hover:text-primary transition-colors line-clamp-1">
-                        {item.title}
+
+                    <Link href={`/${post.slug}`}>
+                      <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors line-clamp-2 mb-2">
+                        {post.title}
                       </h3>
-                      <p className="text-meta-data text-on-surface-variant font-meta-data line-clamp-1 mt-xs">
-                        {item.excerpt}
-                      </p>
-                    </div>
-                    <div className="hidden md:flex items-center gap-md text-on-surface-variant shrink-0">
-                      <span className="flex items-center gap-1 text-meta-data font-meta-data">
-                        <span className="material-symbols-outlined text-sm">visibility</span>
-                        {(item.viewCount / 1000).toFixed(1)}k
-                      </span>
-                      <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors">
-                        arrow_forward
-                      </span>
-                    </div>
-                  </a>
-                );
-              })}
+                    </Link>
+
+                    <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                      {post.excerpt || post.content.slice(0, 100)}...
+                    </p>
+                  </div>
+
+                  <div className="pt-3 mt-3 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-500">
+                    <span className="text-slate-300">{post.author.name}</span>
+                    <Link href={`/${post.slug}`} className="text-indigo-400 hover:underline">
+                      Read
+                    </Link>
+                  </div>
+                </article>
+              ))}
             </div>
           </section>
         )}
 
-        <section className="mt-xl bg-secondary-container rounded-2xl p-lg flex flex-col md:flex-row items-center gap-lg">
-          <div className="flex-1">
-            <h3 className="text-display-lg-mobile text-on-secondary-container font-display-lg mb-xs">
-              Don&apos;t miss a trending insight.
-            </h3>
-            <p className="text-ui-label text-on-secondary-fixed-variant font-ui-label">
-              Join 50,000+ readers getting the most popular stories delivered
-              every Sunday morning.
-            </p>
+        {/* Ranked Leaderboard Grid */}
+        <section className="mb-16">
+          <h2 className="text-xl font-bold text-white mb-6">More Trending Reads</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {remaining.map((post, idx) => (
+              <article
+                key={post.id}
+                className="bg-[#10141e] border border-white/[0.07] rounded-2xl p-5 hover:border-indigo-500/30 transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-bold text-slate-500">
+                      #{idx + 4}
+                    </span>
+                    <span className="text-xs text-slate-400 font-mono">
+                      {formatViews(post.viewCount)}
+                    </span>
+                  </div>
+
+                  <Link href={`/${post.slug}`}>
+                    <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors line-clamp-2 mb-2">
+                      {post.title}
+                    </h3>
+                  </Link>
+
+                  <p className="text-xs text-slate-400 line-clamp-2 mb-4">
+                    {post.excerpt || post.content.slice(0, 100)}...
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-500">
+                  <span className="text-slate-300">{post.author.name}</span>
+                  <Link href={`/${post.slug}`} className="text-indigo-400 hover:underline">
+                    Read
+                  </Link>
+                </div>
+              </article>
+            ))}
           </div>
-          <div className="w-full md:w-auto flex flex-col sm:flex-row gap-xs">
-            <input
-              className="px-md py-2.5 rounded-lg border-none focus:ring-2 focus:ring-primary outline-none min-w-[280px]"
-              placeholder="email@example.com"
-              type="email"
-            />
-            <button className="bg-primary text-on-primary px-lg py-2.5 rounded-lg font-ui-button text-ui-button whitespace-nowrap hover:shadow-lg transition-all active:scale-95">
-              Sign Up Now
-            </button>
+        </section>
+
+        {/* Newsletter Callout Banner */}
+        <section className="bg-gradient-to-br from-[#121622] via-[#10131d] to-[#0c0f16] border border-indigo-500/20 rounded-3xl p-8 sm:p-12 mb-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Don&apos;t miss a trending insight.
+            </h2>
+            <NewsletterForm variant="banner" />
           </div>
         </section>
       </main>
+
       <Footer />
-    </>
+    </div>
   );
 }
