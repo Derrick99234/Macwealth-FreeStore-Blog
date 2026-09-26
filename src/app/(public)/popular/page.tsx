@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import { DEFAULT_POST_IMAGE } from "@/lib/images";
 
 export const revalidate = 60;
 
@@ -50,7 +51,7 @@ export default async function PopularPage() {
             <article className="lg:col-span-8 bg-[#10141e] border border-white/[0.08] rounded-3xl overflow-hidden hover:border-indigo-500/40 transition-all flex flex-col md:flex-row group shadow-2xl">
               <div className="md:w-1/2 relative aspect-[16/10] md:aspect-auto overflow-hidden">
                 <img
-                  src={topPost.featuredImage || "/images/hero-illustration.jpg"}
+                  src={topPost.featuredImage || DEFAULT_POST_IMAGE}
                   alt={topPost.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />

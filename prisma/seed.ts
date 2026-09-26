@@ -47,11 +47,16 @@ async function main() {
     prisma.category.upsert({ where: { slug: "future-of-work" }, update: { postCount: 55 }, create: { name: "Future of Work", slug: "future-of-work", description: "Remote trends, automation, and the modern career.", postCount: 55, icon: "work" } }),
   ]);
 
+  const SUPABASE_BASE = "https://gmmbxzqgjjecvjmodaag.supabase.co/storage/v1/object/public/blog_image";
+  const HERO_IMG = `${SUPABASE_BASE}/hero-illustration.jpg`;
+  const AI_IMG = `${SUPABASE_BASE}/ai-creative.jpg`;
+  const FOCUS_IMG = `${SUPABASE_BASE}/deep-focus.jpg`;
+
   const posts = [
     {
       title: "The Silent Revolution: How Generative Design is Reshaping Our Cities",
       slug: "silent-revolution-generative-design",
-      featuredImage: "/images/hero-illustration.jpg",
+      featuredImage: HERO_IMG,
       content: "Architecture has always been a conversation between the human imagination and the physical constraints of our world. For centuries, this dialogue was limited by the manual tools at our disposal—the compass, the ruler, and eventually, the CAD software that mirrored these physical objects in a digital space. But today, a new voice has entered the room.\n\nGenerative design is not just a tool; it is a collaborative partner that explores millions of iterations in the time it takes an architect to sketch a single floor plan.\n\nUnlike traditional modeling, where an architect defines the geometry, generative design allows the architect to define the goals. By inputting parameters such as solar exposure, wind patterns, material weight, and urban density, we can task algorithms with finding the most efficient and sustainable solutions.\n\n\"We are no longer just building structures; we are growing ecosystems that respond to their environment in real-time.\"\n\nConsider the case of the new 'Veridian District' in Copenhagen. Here, generative models were used to ensure that every single apartment received at least four hours of direct sunlight during the winter months, while simultaneously creating a wind-breaking effect for the central courtyard.\n\nThe future of our cities is not one of cold, calculated steel, but of intelligent, adaptive environments that breathe with the people who inhabit them.",
       excerpt: "How algorithms and parametric intelligence are becoming collaborative partners in modern urban architecture.",
       authorId: authors[0].id,
@@ -62,7 +67,7 @@ async function main() {
     {
       title: "Generative AI: The New Creative Partner",
       slug: "generative-ai-new-creative-partner",
-      featuredImage: "/images/ai-creative.jpg",
+      featuredImage: AI_IMG,
       content: "How artists and writers are using large language models to augment their creative process without losing their voice.\n\nArtists around the world are discovering that AI isn't replacing creativity—it's amplifying it. From synthetic visual art to assisted narrative construction, modern tools offer unexpected creative detours that expand human imagination.\n\nThe key is treating AI as a mirror and a sparring partner, rather than an automated producer.",
       excerpt: "How artists and writers are using large models to augment their creative process without losing their human voice.",
       authorId: authors[1].id,
@@ -73,7 +78,7 @@ async function main() {
     {
       title: "Deep Work: Why Silence is the Ultimate Luxury",
       slug: "deep-work-silence-ultimate-luxury",
-      featuredImage: "/images/deep-focus.jpg",
+      featuredImage: FOCUS_IMG,
       content: "Rediscovering the power of focused attention in an age of constant digital distraction and notification overload.\n\nIn an attention economy designed to fragment human awareness, deep contemplation has become the rarest and most valuable cognitive commodity.\n\nTo think clearly is to create space where incoming stimuli cannot reach you.",
       excerpt: "Rediscovering the immense power of focused contemplation in an age of notification overload.",
       authorId: authors[2].id,
@@ -84,7 +89,7 @@ async function main() {
     {
       title: "Craftsmanship in the Age of Scale",
       slug: "craftsmanship-in-the-age-of-scale",
-      featuredImage: "/images/hero-illustration.jpg",
+      featuredImage: HERO_IMG,
       content: "Why physical objects and mechanical precision still matter in an increasingly ethereal, cloud-based world.\n\nIn a world of ephemeral software and throwaway devices, the deliberate hand-crafted artifact commands profound respect.",
       excerpt: "Why physical objects and mechanical precision still matter in an ethereal world.",
       authorId: authors[1].id,
@@ -95,7 +100,7 @@ async function main() {
     {
       title: "The Invisible Architect: How AI Reshapes Human Agency",
       slug: "invisible-architect-ai-reshapes-agency",
-      featuredImage: "/images/ai-creative.jpg",
+      featuredImage: AI_IMG,
       content: "An exploration of the subtle ways generative models are beginning to influence our daily decision-making processes.\n\nFrom automated recommendation filters to predictive workflows, algorithmic suggestions gradually steer user preferences.",
       excerpt: "An exploration of the subtle ways generative models influence our everyday decision-making.",
       authorId: authors[0].id,
@@ -106,7 +111,7 @@ async function main() {
     {
       title: "Quantum Computing: A Decadal Forecast",
       slug: "quantum-computing-decadal-forecast",
-      featuredImage: "/images/hero-illustration.jpg",
+      featuredImage: HERO_IMG,
       content: "Understanding the roadmap to quantum advantage and what it means for cryptography, medicine, and climate modeling.",
       excerpt: "The realistic roadmap to quantum advantage and its near-term commercial implications.",
       authorId: authors[2].id,
@@ -117,7 +122,7 @@ async function main() {
     {
       title: "The Psychology of Deep Work",
       slug: "psychology-of-deep-work",
-      featuredImage: "/images/deep-focus.jpg",
+      featuredImage: FOCUS_IMG,
       content: "Understanding the neurological pathways that enable peak cognitive performance and sustained flow states.",
       excerpt: "Understanding the neurological pathways that enable peak cognitive performance.",
       authorId: authors[2].id,

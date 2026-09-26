@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { DEFAULT_FOCUS_IMAGE } from "@/lib/images";
 
 export default function AboutPage() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -63,7 +64,7 @@ export default function AboutPage() {
 
           <div className="lg:col-span-6 rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl aspect-[16/10]">
             <img
-              src="/images/deep-focus.jpg"
+              src={DEFAULT_FOCUS_IMAGE}
               alt="Editorial Meditation"
               className="w-full h-full object-cover"
             />

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
+import { DEFAULT_POST_IMAGE, DEFAULT_AI_IMAGE } from "@/lib/images";
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString("en-US", {
@@ -130,7 +131,7 @@ export default function ArticlePage() {
           {/* Featured Hero Image */}
           <div className="w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-white/[0.08] bg-[#121620]">
             <img
-              src={post.featuredImage || "/images/hero-illustration.jpg"}
+              src={post.featuredImage || DEFAULT_POST_IMAGE}
               alt={post.title}
               className="w-full h-full object-cover"
             />
@@ -216,7 +217,7 @@ export default function ArticlePage() {
                 >
                   <Link href={`/${item.slug}`} className="block aspect-[16/10] overflow-hidden">
                     <img
-                      src={item.featuredImage || "/images/ai-creative.jpg"}
+                      src={item.featuredImage || DEFAULT_AI_IMAGE}
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />

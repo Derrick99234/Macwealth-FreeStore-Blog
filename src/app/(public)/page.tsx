@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import { DEFAULT_POST_IMAGE, DEFAULT_AI_IMAGE } from "@/lib/images";
 
 export const revalidate = 60; // Revalidate every 60s
 
@@ -81,7 +82,7 @@ export default async function HomePage({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#10141e] border border-white/[0.08] rounded-3xl p-4 sm:p-6 lg:p-8 hover:border-indigo-500/30 transition-all duration-300 shadow-2xl">
               <div className="lg:col-span-7 overflow-hidden rounded-2xl relative aspect-[16/9] group">
                 <img
-                  src={featuredPost.featuredImage || "/images/hero-illustration.jpg"}
+                  src={featuredPost.featuredImage || DEFAULT_POST_IMAGE}
                   alt={featuredPost.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -208,7 +209,7 @@ export default async function HomePage({
                 >
                   <Link href={`/${post.slug}`} className="block aspect-[16/10] overflow-hidden relative">
                     <img
-                      src={post.featuredImage || "/images/ai-creative.jpg"}
+                      src={post.featuredImage || DEFAULT_AI_IMAGE}
                       alt={post.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
