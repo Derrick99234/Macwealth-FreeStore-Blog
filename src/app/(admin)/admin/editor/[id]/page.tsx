@@ -260,7 +260,7 @@ export default function EditPost() {
       </header>
 
       {/* Editor Main Canvas */}
-      <div className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-6">
+      <div className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-6">
         {/* Title Input */}
         <div>
           <input

@@ -177,11 +177,11 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
   const readTimeStr = calculateReadTime(value);
 
   return (
-    <div className="flex flex-col border border-white/[0.1] rounded-2xl bg-[#0f131d] overflow-hidden shadow-2xl transition-all">
-      {/* Sticky Dark WYSIWYG Toolbar */}
-      <div className="sticky top-0 z-10 flex flex-wrap items-center gap-1 p-2 sm:p-2.5 bg-[#141926]/95 backdrop-blur-md border-b border-white/[0.08] text-slate-300 select-none">
+    <div className="flex flex-col w-full bg-transparent">
+      {/* Seamless Sticky WYSIWYG Toolbar */}
+      <div className="sticky top-16 z-20 flex flex-wrap items-center gap-1.5 py-3 bg-[#0a0c10]/95 backdrop-blur-md border-b border-white/[0.08] text-slate-400 select-none">
         {/* Undo / Redo */}
-        <div className="flex items-center gap-0.5 pr-1.5 border-r border-white/[0.08]">
+        <div className="flex items-center gap-0.5 pr-2 border-r border-white/[0.08]">
           <button
             type="button"
             onClick={() => executeCmd("undo")}
@@ -201,13 +201,13 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
 
         {/* Headings */}
-        <div className="flex items-center gap-0.5 px-1.5 border-r border-white/[0.08]">
+        <div className="flex items-center gap-0.5 px-2 border-r border-white/[0.08]">
           <button
             type="button"
             onClick={() => handleFormatBlock("p")}
-            className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all ${
+            className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${
               !activeFormats.h1 && !activeFormats.h2 && !activeFormats.h3 && !activeFormats.blockquote
-                ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/30"
+                ? "bg-white/10 text-white"
                 : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
             }`}
             title="Paragraph Text"
@@ -217,9 +217,9 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
           <button
             type="button"
             onClick={() => handleFormatBlock("h2")}
-            className={`px-2 py-1 text-xs font-bold rounded-lg transition-all ${
+            className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
               activeFormats.h2
-                ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/30"
+                ? "bg-white/10 text-white"
                 : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
             }`}
             title="Heading 2"
@@ -229,9 +229,9 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
           <button
             type="button"
             onClick={() => handleFormatBlock("h3")}
-            className={`px-2 py-1 text-xs font-bold rounded-lg transition-all ${
+            className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
               activeFormats.h3
-                ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/30"
+                ? "bg-white/10 text-white"
                 : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
             }`}
             title="Heading 3"
@@ -241,16 +241,16 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
 
         {/* Inline Formatting (Bold, Italic, Underline, Strike) */}
-        <div className="flex items-center gap-0.5 px-1.5 border-r border-white/[0.08]">
+        <div className="flex items-center gap-0.5 px-2 border-r border-white/[0.08]">
           <button
             type="button"
             onClick={() => executeCmd("bold")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.bold
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
-            title="Bold (Ctrl+B) — Visual bold text"
+            title="Bold (Ctrl+B)"
           >
             <span className="material-symbols-outlined text-[19px]">format_bold</span>
           </button>
@@ -259,8 +259,8 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
             onClick={() => executeCmd("italic")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.italic
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
             title="Italic (Ctrl+I)"
           >
@@ -271,8 +271,8 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
             onClick={() => executeCmd("underline")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.underline
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
             title="Underline (Ctrl+U)"
           >
@@ -283,8 +283,8 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
             onClick={() => executeCmd("strikeThrough")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.strikeThrough
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
             title="Strikethrough"
           >
@@ -293,14 +293,14 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
 
         {/* Lists & Blockquote */}
-        <div className="flex items-center gap-0.5 px-1.5 border-r border-white/[0.08]">
+        <div className="flex items-center gap-0.5 px-2 border-r border-white/[0.08]">
           <button
             type="button"
             onClick={() => executeCmd("insertUnorderedList")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.insertUnorderedList
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
             title="Bullet List"
           >
@@ -311,8 +311,8 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
             onClick={() => executeCmd("insertOrderedList")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.insertOrderedList
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
             title="Numbered List"
           >
@@ -323,8 +323,8 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
             onClick={() => handleFormatBlock("blockquote")}
             className={`p-1.5 rounded-lg transition-all ${
               activeFormats.blockquote
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                ? "bg-white/15 text-white shadow-sm"
+                : "text-slate-400 hover:bg-white/[0.08] hover:text-white"
             }`}
             title="Blockquote"
           >
@@ -333,11 +333,11 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
 
         {/* Interactive Link & Unlink */}
-        <div className="flex items-center gap-0.5 px-1.5 border-r border-white/[0.08]">
+        <div className="flex items-center gap-0.5 px-2 border-r border-white/[0.08]">
           <button
             type="button"
             onClick={openLinkDialog}
-            className="p-1.5 rounded-lg hover:bg-white/[0.08] text-slate-300 hover:text-indigo-400 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-white/[0.08] text-slate-400 hover:text-indigo-400 transition-colors"
             title="Insert Link (Ctrl+K)"
           >
             <span className="material-symbols-outlined text-[19px]">link</span>
@@ -353,11 +353,11 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
 
         {/* Alignment */}
-        <div className="flex items-center gap-0.5 px-1.5 border-r border-white/[0.08]">
+        <div className="flex items-center gap-0.5 px-2 border-r border-white/[0.08]">
           <button
             type="button"
             onClick={() => executeCmd("justifyLeft")}
-            className="p-1.5 rounded-lg hover:bg-white/[0.08] text-slate-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg hover:bg-white/[0.08] text-slate-400 hover:text-white transition-colors"
             title="Align Left"
           >
             <span className="material-symbols-outlined text-[19px]">format_align_left</span>
@@ -365,7 +365,7 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
           <button
             type="button"
             onClick={() => executeCmd("justifyCenter")}
-            className="p-1.5 rounded-lg hover:bg-white/[0.08] text-slate-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg hover:bg-white/[0.08] text-slate-400 hover:text-white transition-colors"
             title="Align Center"
           >
             <span className="material-symbols-outlined text-[19px]">format_align_center</span>
@@ -373,7 +373,7 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
 
         {/* Clear formatting */}
-        <div className="flex items-center gap-0.5 px-1.5">
+        <div className="flex items-center gap-0.5 px-2">
           <button
             type="button"
             onClick={() => executeCmd("removeFormat")}
@@ -404,13 +404,13 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
         </div>
       </div>
 
-      {/* Editor Surface */}
-      <div className="relative min-h-[520px] p-6 sm:p-8 bg-[#0a0d14] text-slate-200">
+      {/* Editor Surface - Borderless & Seamless with Title */}
+      <div className="relative min-h-[560px] py-6 px-0 bg-transparent text-slate-200">
         {isCodeView ? (
           <textarea
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full h-[520px] bg-transparent text-amber-300/90 font-mono text-sm leading-relaxed p-0 border-none outline-none resize-none focus:ring-0"
+            className="w-full h-[560px] bg-transparent text-amber-300/90 font-mono text-sm leading-relaxed p-0 border-none outline-none resize-none focus:ring-0"
             placeholder="Edit raw HTML..."
           />
         ) : (
@@ -422,13 +422,13 @@ export function RichTextEditor({ value, onChange, placeholder = "Start writing y
             onMouseUp={updateActiveFormats}
             onKeyDown={handleKeyDown}
             data-placeholder={placeholder}
-            className="rich-text-surface min-h-[520px] outline-none text-base sm:text-lg leading-relaxed text-slate-200 empty:before:content-[attr(data-placeholder)] empty:before:text-slate-600 empty:before:pointer-events-none"
+            className="rich-text-surface min-h-[560px] outline-none text-base sm:text-lg leading-relaxed text-slate-200 empty:before:content-[attr(data-placeholder)] empty:before:text-slate-600 empty:before:pointer-events-none"
           />
         )}
       </div>
 
-      {/* Real-Time Word Count & Calculated Reading Time Bar */}
-      <div className="px-6 py-3 bg-[#111520] border-t border-white/[0.08] flex items-center justify-between text-xs text-slate-400 select-none">
+      {/* Word Count & Reading Time Bar - Seamless */}
+      <div className="py-4 px-0 bg-transparent border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-500 select-none">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5">
             <span className="material-symbols-outlined text-sm text-slate-500">article</span>
