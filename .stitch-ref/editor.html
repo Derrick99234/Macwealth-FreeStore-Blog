@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>InsightHub Admin | Post Editor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config from Source of Truth -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f7f9fb",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#5c647a",
+                    "inverse-surface": "#2d3133",
+                    "secondary-container": "#dae2fd",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed": "#131b2e",
+                    "primary-fixed": "#e2dfff",
+                    "on-error": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "tertiary": "#005338",
+                    "outline": "#777587",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#0f0069",
+                    "background": "#f7f9fb",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary-container": "#67f4b7",
+                    "on-background": "#191c1e",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "primary": "#3525cd",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "secondary": "#565e74",
+                    "on-primary-container": "#dad7ff",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed": "#6ffbbe",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "surface-container-low": "#f2f4f6",
+                    "primary-container": "#4f46e5",
+                    "outline-variant": "#c7c4d8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "tertiary-container": "#006e4b",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-surface-variant": "#464555",
+                    "secondary-fixed": "#dae2fd",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-tertiary-fixed": "#002113",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#c3c0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "lg": "48px",
+                    "article-max": "720px",
+                    "xl": "80px",
+                    "container-max": "1200px",
+                    "md": "24px",
+                    "xs": "8px",
+                    "sm": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "body-main": ["Merriweather"],
+                    "article-title-mobile": ["Merriweather"],
+                    "display-lg-mobile": ["Inter"],
+                    "ui-label": ["Inter"],
+                    "meta-data": ["Inter"],
+                    "article-title": ["Merriweather"],
+                    "ui-button": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-main": ["18px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "article-title-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "ui-label": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "meta-data": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "article-title": ["40px", {"lineHeight": "52px", "fontWeight": "700"}],
+                    "ui-button": ["15px", {"lineHeight": "20px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f7f9fb;
+        }
+        .popover-shadow {
+            box-shadow: 0px 10px 15px -3px rgba(15, 23, 42, 0.08);
+        }
+        .editor-textarea:focus {
+            outline: none;
+        }
+        /* Custom scrollbar for minimalist feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-ui-label text-on-background min-h-screen overflow-hidden">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex flex-col py-md z-30">
+<div class="px-sm mb-lg">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed tracking-tight">Admin Panel</h1>
+<p class="font-meta-data text-meta-data text-on-surface-variant">Editor Workspace</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ui-label text-ui-label">Dashboard</span>
+</div>
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">article</span>
+<span class="font-ui-label text-ui-label">Content</span>
+</div>
+<!-- Editor is Active -->
+<div class="flex items-center gap-xs px-sm py-xs text-primary dark:text-primary-fixed border-l-2 border-primary dark:border-primary-fixed bg-secondary-container dark:bg-secondary-fixed-dim cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-ui-label text-ui-label">Editor</span>
+</div>
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-ui-label text-ui-label">Settings</span>
+</div>
+</nav>
+<div class="px-sm mt-auto">
+<button class="w-full py-xs bg-primary text-on-primary font-ui-button text-ui-button rounded-lg flex items-center justify-center gap-xs active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                New Post
+            </button>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-64 h-screen flex flex-col relative">
+<!-- Header / Toolbar -->
+<header class="h-16 flex items-center justify-between px-lg border-b border-outline-variant bg-surface-bright sticky top-0 z-20">
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs border-r border-outline-variant pr-md">
+<button class="p-xs hover:bg-surface-container rounded transition-colors" title="Bold">
+<span class="material-symbols-outlined">format_bold</span>
+</button>
+<button class="p-xs hover:bg-surface-container rounded transition-colors" title="Italic">
+<span class="material-symbols-outlined">format_italic</span>
+</button>
+<button class="p-xs hover:bg-surface-container rounded transition-colors" title="Link">
+<span class="material-symbols-outlined">link</span>
+</button>
+<button class="p-xs hover:bg-surface-container rounded transition-colors" title="Quote">
+<span class="material-symbols-outlined">format_quote</span>
+</button>
+</div>
+<div class="flex items-center gap-xs">
+<span class="text-on-surface-variant text-ui-label font-ui-label">Saving...</span>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-xs text-on-surface-variant font-ui-button text-ui-button hover:text-primary transition-colors py-xs px-sm border border-outline-variant rounded" id="settingsBtn">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+                    Settings
+                </button>
+<button class="bg-primary text-on-primary font-ui-button text-ui-button px-md py-xs rounded hover:opacity-90 active:scale-95 transition-all">
+                    Publish
+                </button>
+</div>
+</header>
+<!-- Editor Canvas -->
+<div class="flex-1 overflow-y-auto scroll-smooth py-xl">
+<div class="max-w-[article-max] mx-auto px-md">
+<!-- Title Input -->
+<input class="w-full font-article-title text-article-title bg-transparent border-none focus:ring-0 placeholder-on-surface-variant/30 mb-xs" placeholder="Enter post title..." spellcheck="false" type="text"/>
+<div class="flex items-center gap-sm text-on-surface-variant font-meta-data text-meta-data mb-lg border-b border-outline-variant/30 pb-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                        June 12, 2024
+                    </div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                        5 min read
+                    </div>
+</div>
+<!-- Main Writing Area -->
+<textarea class="w-full min-h-[614px] font-body-main text-body-main bg-transparent border-none focus:ring-0 editor-textarea resize-none placeholder-on-surface-variant/30" placeholder="Start your story here..." spellcheck="true"></textarea>
+</div>
+</div>
+<!-- Meta Settings Popover (Absolute Positioning) -->
+<div class="absolute right-md top-20 w-80 bg-surface-container-lowest border border-outline-variant rounded-xl popover-shadow z-40 hidden animate-in fade-in slide-in-from-top-2 duration-200" id="settingsPopover">
+<div class="p-md space-y-md">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<h3 class="font-ui-label text-ui-label font-bold text-on-surface">Post Settings</h3>
+<button class="text-on-surface-variant hover:text-error transition-colors" onclick="toggleSettings()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Featured Image -->
+<div class="space-y-xs">
+<label class="font-ui-label text-[12px] uppercase tracking-wider text-on-surface-variant font-bold">Featured Image</label>
+<div class="relative group cursor-pointer overflow-hidden rounded-lg border-2 border-dashed border-outline-variant hover:border-primary transition-colors aspect-video bg-surface-container flex flex-col items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" data-alt="A sophisticated, high-end editorial flat lay featuring a minimalist workspace with a sleek laptop, a classic notebook, and a ceramic mug on a pristine white desk. The lighting is soft and diffused, characteristic of a professional studio setup with high-key illumination. The aesthetic is clean and intellectual, utilizing a palette of cool greys, deep blacks, and subtle indigo accents to convey a sense of professional authority and focus." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvHbclQOpncGY61E6SOVmV3RH0pW2h5NfBIBO2Gf2LmCflCKHYS1uaPimJbr2pQjuzUL9kpgNNDsUa7KZZJY8Yz_8BGxMP8-E7fnNqwNC5gdkEnZdY71AxfzlUVVJMQJm3Z0A4XS00VmXQgtyWHD8LxIoJrfi_btqcjc07Vt_Cu8y6c9xPmEAPG_f5f69hAQpjmbALXxuM5OPveWG_qRQSGvlWU3f699f9TKnilf2Z2irxNdmpYjUA2Q')"></div>
+<div class="relative z-10 flex flex-col items-center text-on-surface-variant bg-surface-container-lowest/80 p-xs rounded backdrop-blur-sm group-hover:bg-primary group-hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="text-[12px] font-medium">Replace Image</span>
+</div>
+</div>
+</div>
+<!-- Tags -->
+<div class="space-y-xs">
+<label class="font-ui-label text-[12px] uppercase tracking-wider text-on-surface-variant font-bold">Tags</label>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-secondary-container text-on-secondary-fixed-variant px-xs py-[2px] rounded text-[12px] flex items-center gap-[2px]">
+                            Journalism <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span>
+</span>
+<span class="bg-secondary-container text-on-secondary-fixed-variant px-xs py-[2px] rounded text-[12px] flex items-center gap-[2px]">
+                            Innovation <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span>
+</span>
+<button class="border border-outline-variant text-on-surface-variant px-xs py-[2px] rounded text-[12px] border-dashed hover:border-primary hover:text-primary transition-colors">
+                            + Add Tag
+                        </button>
+</div>
+</div>
+<!-- SEO Description -->
+<div class="space-y-xs">
+<label class="font-ui-label text-[12px] uppercase tracking-wider text-on-surface-variant font-bold">SEO Description</label>
+<textarea class="w-full text-meta-data font-meta-data border border-outline-variant rounded p-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none h-24 resize-none" placeholder="Write a brief summary for search results..."></textarea>
+</div>
+<div class="pt-xs">
+<button class="w-full py-xs bg-inverse-surface text-on-primary font-ui-button text-ui-button rounded hover:opacity-90 transition-opacity">
+                        Save Changes
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPopover = document.getElementById('settingsPopover');
+
+        function toggleSettings() {
+            settingsPopover.classList.toggle('hidden');
+            if(!settingsPopover.classList.contains('hidden')) {
+                settingsBtn.classList.add('text-primary', 'border-primary', 'bg-secondary-container');
+            } else {
+                settingsBtn.classList.remove('text-primary', 'border-primary', 'bg-secondary-container');
+            }
+        }
+
+        settingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleSettings();
+        });
+
+        // Close on escape or outside click
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !settingsPopover.classList.contains('hidden')) {
+                toggleSettings();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!settingsPopover.contains(e.target) && e.target !== settingsBtn && !settingsPopover.classList.contains('hidden')) {
+                toggleSettings();
+            }
+        });
+
+        // Simple placeholder animation for "Saving"
+        const savingText = document.querySelector('header .text-on-surface-variant');
+        setInterval(() => {
+            savingText.textContent = 'Saved locally';
+            setTimeout(() => {
+                savingText.textContent = 'Syncing...';
+            }, 5000);
+        }, 8000);
+    </script>
+</body></html>

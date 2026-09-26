@@ -1,0 +1,388 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Popular Stories | InsightHub</title>
+<!-- Google Fonts: Inter & Merriweather -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d8dadc",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary": "#3525cd",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "tertiary-fixed": "#6ffbbe",
+                    "secondary-container": "#dae2fd",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-fixed": "#002113",
+                    "outline-variant": "#c7c4d8",
+                    "background": "#f7f9fb",
+                    "tertiary-container": "#006e4b",
+                    "primary-fixed": "#e2dfff",
+                    "surface-container-high": "#e6e8ea",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "surface-variant": "#e0e3e5",
+                    "on-surface-variant": "#464555",
+                    "tertiary": "#005338",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "on-primary-fixed": "#0f0069",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "surface-container": "#eceef0",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#565e74",
+                    "outline": "#777587",
+                    "on-secondary-fixed": "#131b2e",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#67f4b7",
+                    "on-secondary-container": "#5c647a",
+                    "error": "#ba1a1a",
+                    "primary-container": "#4f46e5",
+                    "secondary-fixed": "#dae2fd",
+                    "on-primary-container": "#dad7ff",
+                    "error-container": "#ffdad6",
+                    "surface": "#f7f9fb",
+                    "on-surface": "#191c1e",
+                    "surface-tint": "#4d44e3",
+                    "inverse-surface": "#2d3133",
+                    "on-background": "#191c1e",
+                    "inverse-primary": "#c3c0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "xs": "8px",
+                    "xl": "80px",
+                    "lg": "48px",
+                    "sm": "16px",
+                    "article-max": "720px",
+                    "container-max": "1200px",
+                    "md": "24px"
+            },
+            "fontFamily": {
+                    "article-title-mobile": ["Merriweather"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-main": ["Merriweather"],
+                    "article-title": ["Merriweather"],
+                    "ui-label": ["Inter"],
+                    "ui-button": ["Inter"],
+                    "meta-data": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "article-title-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-main": ["18px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "article-title": ["40px", {"lineHeight": "52px", "fontWeight": "700"}],
+                    "ui-label": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "ui-button": ["15px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "meta-data": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .bento-item-large { grid-column: span 8; }
+        .bento-item-small { grid-column: span 4; }
+        @media (max-width: 1024px) {
+            .bento-item-large, .bento-item-small { grid-column: span 12; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-main selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-dim w-full top-0 sticky z-50 border-b border-outline-variant dark:border-outline">
+<div class="flex justify-between items-center px-md py-xs max-w-container-max mx-auto">
+<div class="flex items-center gap-lg">
+<span class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed font-extrabold tracking-tight cursor-pointer">FreeStore</span>
+<nav class="hidden md:flex gap-md">
+<a class="font-ui-label text-ui-label text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80" href="#">Latest</a>
+<a class="font-ui-label text-ui-label text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80" href="#">Popular</a>
+<a class="font-ui-label text-ui-label text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80" href="#">Categories</a>
+<a class="font-ui-label text-ui-label text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80" href="#">About</a>
+</nav>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container border border-outline-variant rounded-lg font-ui-label text-ui-label focus:ring-2 focus:ring-primary/50 outline-none transition-all" placeholder="Search insights..." type="text">
+</div>
+<button class="font-ui-button text-ui-button px-md py-2 text-primary hover:bg-primary/5 transition-all active:scale-95">Sign In</button>
+<button class="font-ui-button text-ui-button px-md py-2 bg-primary text-on-primary rounded-lg shadow-sm hover:opacity-90 transition-all active:scale-95">Subscribe</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-md py-lg">
+<!-- Hero Title -->
+<section class="mb-lg border-b border-outline-variant pb-md">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-xs">Popular Stories</h1>
+<p class="font-ui-label text-ui-label text-on-surface-variant max-w-2xl">The most influential perspectives and deeply researched insights trending this month in our community.</p>
+</section>
+<!-- Popular Bento Grid -->
+<div class="bento-grid">
+<!-- Rank 1: Featured Large -->
+<article class="bento-item-large group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="grid md:grid-cols-2 h-full">
+<div class="relative h-64 md:h-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A high-contrast cinematic photograph of a futuristic urban skyline at dusk, with soft violet and primary blue light reflecting off glass skyscrapers. The atmosphere is intellectual and serene, featuring clean lines and a professional minimalist aesthetic typical of a high-end editorial blog. Sharp focus on architectural details against a hazy background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE3RRwF-_gqt5_sycs1sNmiVotoGDQGzHg5X0nzmxPpC3KKmNS-7Tgpkobx7zDIrIF4Q_bYiT2kf6m_wXrp2vJTuaJ6EdcWZaSOlh4ShVbGY2R3Ny7eclpssGRa3plorViPp5p3gQ6nuc6Wx3sFlip7eUBR2N1v-i2fK6qrguTVc2ySNeh6ppxT54PfLOKZNmgcvcu2bPajewoAjuNnd5pPM3oK_Y51pSPUmlbU43PKtuQEaq7wtBm3A">
+<div class="absolute top-sm left-sm bg-primary text-on-primary px-3 py-1 rounded-full font-ui-label text-xs font-bold uppercase tracking-widest shadow-md">#1 Trending</div>
+</div>
+<div class="p-lg flex flex-col justify-center">
+<div class="flex items-center gap-xs mb-sm">
+<span class="font-meta-data text-meta-data text-primary font-bold">Tech Ethics</span>
+<span class="text-outline-variant">•</span>
+<span class="font-meta-data text-meta-data text-on-surface-variant">8 min read</span>
+</div>
+<h2 class="font-article-title text-article-title text-on-surface mb-sm group-hover:text-primary transition-colors">The Invisible Architect: How AI Reshapes Human Agency</h2>
+<p class="font-body-main text-on-surface-variant line-clamp-3 mb-md">An exploration of the subtle ways generative models are beginning to influence our daily decision-making processes and the ethical frameworks we must build today.</p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-outline-variant">
+<div class="flex items-center gap-xs">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a woman with a confident, intellectual expression. She is wearing a minimal charcoal blazer against a clean, light gray studio background. The lighting is soft and even, highlighting a trustworthy and authoritative persona for an editorial author profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeImpN6ULJiXlJoBeRxH81GBUhEn-3PllSxRO4A8KOvPXtA78HvBLiwNUtZ6qEbOITbOB7ateQwNewQNoy29QT_SpqyGKnxRegGH4yDOYf3OelO6Zr9HroQ7GAmsP373Tu4JgURbALkHX_coxObLjUjI69bvd_2_pVUgPhNrgW4qzgH9ngaHRFEVCUUDtry1xTx2Q6TF7Kdzn9FCfrPadJLg0h__gLEcEPXgrWIQz5j65omddmJAvUYg">
+</div>
+<span class="font-ui-label text-ui-label font-bold">Dr. Elena Vance</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="flex items-center gap-1 font-meta-data text-meta-data"><span class="material-symbols-outlined text-sm">visibility</span> 42.5k</span>
+<span class="flex items-center gap-1 font-meta-data text-meta-data"><span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">favorite</span> 12.1k</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Rank 2: Small Sidebar -->
+<article class="bento-item-small group bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col hover:shadow-md transition-all">
+<div class="mb-sm flex items-center justify-between">
+<span class="bg-surface-container-high px-2 py-0.5 rounded font-ui-label text-[10px] font-bold uppercase text-on-surface-variant">#2 Trending</span>
+<span class="font-meta-data text-meta-data text-on-surface-variant">4 min read</span>
+</div>
+<h3 class="font-article-title-mobile text-article-title-mobile text-on-surface mb-xs group-hover:text-primary transition-colors">Sustainable Design in a Circular Economy</h3>
+<p class="font-meta-data text-on-surface-variant line-clamp-2 mb-md">Why longevity is becoming the most disruptive feature in modern product development.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-ui-label text-ui-label text-primary font-bold">Architecture</span>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="font-meta-data text-meta-data">28k</span>
+</div>
+</div>
+</article>
+<!-- Rank 3: Small Sidebar -->
+<article class="bento-item-small group bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col hover:shadow-md transition-all">
+<div class="mb-sm flex items-center justify-between">
+<span class="bg-surface-container-high px-2 py-0.5 rounded font-ui-label text-[10px] font-bold uppercase text-on-surface-variant">#3 Trending</span>
+<span class="font-meta-data text-meta-data text-on-surface-variant">12 min read</span>
+</div>
+<h3 class="font-article-title-mobile text-article-title-mobile text-on-surface mb-xs group-hover:text-primary transition-colors">The Psychology of Deep Work</h3>
+<p class="font-meta-data text-on-surface-variant line-clamp-2 mb-md">Understanding the neurological pathways that enable peak cognitive performance.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-ui-label text-ui-label text-primary font-bold">Mental Health</span>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="font-meta-data text-meta-data">19k</span>
+</div>
+</div>
+</article>
+<!-- Rank 4-7: Mid-size Grid -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-4 gap-md">
+<article class="group cursor-pointer">
+<div class="aspect-video rounded-lg overflow-hidden border border-outline-variant mb-sm relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="A minimalist workspace featuring a sleek high-tech notebook, a ceramic mug of coffee, and a single green plant. The lighting is crisp morning sunlight filtering through a window, creating a serene, focused atmosphere. The colors are dominated by soft whites, deep blues, and natural wood tones, emphasizing a professional editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArwK3J2nwwgJ6Kuplxgk8lPWhybd_1alDY2tXKVXyjr9xv_9I2sJnP-CNt-InRjmD9DOD0J3MBNPrwFa4xUwG6mUHETZytMJQR1nCS71WsnVe9zBPs9lTOpD2aNy52bev5lCg7LsZ6zs0zBwqXHftIuKwB0nfvXZqp6b9i1PQ6EpJbKDpgTJKBwP_mICGj9jCYeEy5wKjZNoOA9kzibOP5VjdIO2OUASXASKBZooglDG8mKBUydHwyVw">
+<div class="absolute bottom-2 left-2 bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-bold">#4</div>
+</div>
+<h4 class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors line-clamp-2">Reimagining Productivity: Beyond the To-Do List</h4>
+<div class="mt-xs flex items-center gap-sm text-on-surface-variant">
+<span class="font-meta-data text-meta-data">15k views</span>
+<span class="text-outline-variant">•</span>
+<span class="font-meta-data text-meta-data">6 min</span>
+</div>
+</article>
+<article class="group cursor-pointer">
+<div class="aspect-video rounded-lg overflow-hidden border border-outline-variant mb-sm relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="An abstract representation of digital connectivity featuring glowing filaments of light intertwined like biological neural networks. The background is a deep navy blue, with accents of bright violet and neon indigo. The style is sophisticated and high-tech, evoking complex systems and modern data science." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu7HWmWEL-B666EMXEyICcQ83-JMqM5FQb4fAC2DcM_VP-GEYTY38i-rN_MM2iuQ9fOP3FdFg0lZ-xHea9oFIP_yVqNjC_QJxmKpxRspnzXLZGFpViOlGA03DljjXugkSuJZrSNNHX284I0sJs9zUwDBXOk4nAc8DIXg1yweMoKgWFUNyd021J7uj8I3u17yLKf_AbH_WwVHdC-eHL6zSU_itvIubztGVbMRobdn_zCZf3LnbsFlSHMw">
+<div class="absolute bottom-2 left-2 bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-bold">#5</div>
+</div>
+<h4 class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors line-clamp-2">Quantum Computing: A Decadal Forecast</h4>
+<div class="mt-xs flex items-center gap-sm text-on-surface-variant">
+<span class="font-meta-data text-meta-data">14.2k views</span>
+<span class="text-outline-variant">•</span>
+<span class="font-meta-data text-meta-data">15 min</span>
+</div>
+</article>
+<article class="group cursor-pointer">
+<div class="aspect-video rounded-lg overflow-hidden border border-outline-variant mb-sm relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="A clean, minimalist kitchen interior showing a wooden countertop with organic vegetables and a high-end chef's knife. The lighting is soft and warm, creating an inviting, healthy lifestyle aesthetic. The color palette consists of earthy tones, primary white walls, and vibrant greens from the produce." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDQ_mObjRtHfgfbZRiYlylixKS8uie_6ew7CR0lmLillE_MZYOt6eo6-WXFAPX8SCwKqoTT7ZLCYaLEU2utrhrs30GqSP8JBIOuAJfodXylqU1ZM0OHvvws7XFQU89UJdzfA_arqn9mJDNqT-E3Jl7hICynJKxVP9OUnavauyXMjRTdFILnss4iP8oC5_-EM2GP5eamJY22kZa-YN2SbcogMdr6Bp4v1ZT2afgvotdawF9v1GLH8rq6g">
+<div class="absolute bottom-2 left-2 bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-bold">#6</div>
+</div>
+<h4 class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors line-clamp-2">Gastronomy &amp; Brain Health: The Gut-Mind Connection</h4>
+<div class="mt-xs flex items-center gap-sm text-on-surface-variant">
+<span class="font-meta-data text-meta-data">11k views</span>
+<span class="text-outline-variant">•</span>
+<span class="font-meta-data text-meta-data">7 min</span>
+</div>
+</article>
+<article class="group cursor-pointer">
+<div class="aspect-video rounded-lg overflow-hidden border border-outline-variant mb-sm relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="An elegant, modern home library with floor-to-ceiling bookshelves and a comfortable leather reading chair. A soft floor lamp provides warm, focused light for a reading session. The mood is intellectual and quiet, emphasizing deep focus and the value of classical literature in a digital age." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHXttwuDluOMUCMrp6i72S_44rlt2RWb6NIvKVEfz0TJpFMWH3nAS50bWVSoqMqeUo7MmuBR_2tF34jOAUTRJFzVIso8E0vxxypBt48pz7F3wEi6wVFiVFC4RJyIhEqDnD_HEQ_uEfd9m1n7a0z3mx-f79MYRo-WdfqktXyWJQYzSb9L1LYAPaqJlPnQMzicb7PegU5zBfxH6vYFo0ZrgcHWi1OQDIp47VyJW037IRxhIElPdfmTaKNw">
+<div class="absolute bottom-2 left-2 bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-bold">#7</div>
+</div>
+<h4 class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors line-clamp-2">Why Print Media is Making a Luxury Comeback</h4>
+<div class="mt-xs flex items-center gap-sm text-on-surface-variant">
+<span class="font-meta-data text-meta-data">9.8k views</span>
+<span class="text-outline-variant">•</span>
+<span class="font-meta-data text-meta-data">9 min</span>
+</div>
+</article>
+</div>
+</div>
+<!-- Secondary Rankings: List View for 8-15 -->
+<section class="mt-xl">
+<div class="flex items-center justify-between mb-md border-b border-outline-variant pb-xs">
+<h3 class="font-ui-label text-ui-label font-bold uppercase tracking-widest text-on-surface-variant">Rising Insights</h3>
+<button class="font-meta-data text-meta-data text-primary hover:underline">View All Trends</button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-x-xl gap-y-sm">
+<!-- List Item 1 -->
+<div class="flex items-start gap-md py-sm hover:bg-surface-container-low transition-colors px-2 rounded-lg cursor-pointer group">
+<span class="font-display-lg text-display-lg text-outline-variant/40 group-hover:text-primary/20 transition-colors shrink-0 w-16">08</span>
+<div class="flex-grow">
+<h4 class="font-ui-label text-ui-label text-on-surface font-bold group-hover:text-primary transition-colors">Decentralized Finance: Beyond the Speculation</h4>
+<p class="font-meta-data text-meta-data text-on-surface-variant">By Marcus Thorne in Finance</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="font-meta-data text-meta-data font-bold text-on-surface">8.4k</span>
+<span class="block text-[10px] text-on-surface-variant uppercase">Views</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-start gap-md py-sm hover:bg-surface-container-low transition-colors px-2 rounded-lg cursor-pointer group border-t lg:border-t-0 border-outline-variant">
+<span class="font-display-lg text-display-lg text-outline-variant/40 group-hover:text-primary/20 transition-colors shrink-0 w-16">09</span>
+<div class="flex-grow">
+<h4 class="font-ui-label text-ui-label text-on-surface font-bold group-hover:text-primary transition-colors">The Art of Minimalist Living</h4>
+<p class="font-meta-data text-meta-data text-on-surface-variant">By Sarah Jenkins in Lifestyle</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="font-meta-data text-meta-data font-bold text-on-surface">7.9k</span>
+<span class="block text-[10px] text-on-surface-variant uppercase">Views</span>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-start gap-md py-sm hover:bg-surface-container-low transition-colors px-2 rounded-lg cursor-pointer group border-t border-outline-variant">
+<span class="font-display-lg text-display-lg text-outline-variant/40 group-hover:text-primary/20 transition-colors shrink-0 w-16">10</span>
+<div class="flex-grow">
+<h4 class="font-ui-label text-ui-label text-on-surface font-bold group-hover:text-primary transition-colors">Genetic Medicine: The 2025 Frontier</h4>
+<p class="font-meta-data text-meta-data text-on-surface-variant">By Dr. Julian Aris in Science</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="font-meta-data text-meta-data font-bold text-on-surface">7.2k</span>
+<span class="block text-[10px] text-on-surface-variant uppercase">Views</span>
+</div>
+</div>
+<!-- List Item 4 -->
+<div class="flex items-start gap-md py-sm hover:bg-surface-container-low transition-colors px-2 rounded-lg cursor-pointer group border-t border-outline-variant">
+<span class="font-display-lg text-display-lg text-outline-variant/40 group-hover:text-primary/20 transition-colors shrink-0 w-16">11</span>
+<div class="flex-grow">
+<h4 class="font-ui-label text-ui-label text-on-surface font-bold group-hover:text-primary transition-colors">The Future of Urban Commuting</h4>
+<p class="font-meta-data text-meta-data text-on-surface-variant">By Liam Chen in Environment</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="font-meta-data text-meta-data font-bold text-on-surface">6.8k</span>
+<span class="block text-[10px] text-on-surface-variant uppercase">Views</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter CTA -->
+<section class="mt-xl bg-secondary-container dark:bg-secondary-fixed-dim rounded-2xl p-lg flex flex-col md:flex-row items-center gap-lg">
+<div class="flex-1">
+<h3 class="font-display-lg-mobile text-display-lg-mobile text-on-secondary-container mb-xs">Don't miss a trending insight.</h3>
+<p class="font-ui-label text-ui-label text-on-secondary-fixed-variant">Join 50,000+ readers getting the most popular stories delivered every Sunday morning.</p>
+</div>
+<div class="w-full md:w-auto flex flex-col sm:flex-row gap-xs">
+<input class="px-md py-2.5 rounded-lg border-none focus:ring-2 focus:ring-primary outline-none min-w-[280px]" placeholder="email@example.com" type="email">
+<button class="bg-primary text-on-primary px-lg py-2.5 rounded-lg font-ui-button text-ui-button whitespace-nowrap hover:shadow-lg transition-all active:scale-95">Sign Up Now</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-inverse-surface dark:bg-surface-container-lowest w-full py-lg border-t border-outline-variant dark:border-outline mt-xl">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md px-md max-w-container-max mx-auto">
+<div class="flex flex-col gap-sm">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-primary dark:text-primary font-extrabold tracking-tight">InsightHub</span>
+<p class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant max-w-xs">
+                    Curating high-signal perspectives on technology, philosophy, and the future of human enterprise.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<h5 class="text-on-primary dark:text-primary font-bold font-ui-label text-xs uppercase tracking-widest mb-2">Platform</h5>
+<a class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant hover:underline decoration-primary transition-all" href="#">Latest Stories</a>
+<a class="font-meta-data text-meta-data text-on-primary dark:text-primary font-bold hover:underline decoration-primary transition-all" href="#">Popular</a>
+<a class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant hover:underline decoration-primary transition-all" href="#">Authors</a>
+</div>
+<div class="flex flex-col gap-xs">
+<h5 class="text-on-primary dark:text-primary font-bold font-ui-label text-xs uppercase tracking-widest mb-2">Company</h5>
+<a class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant hover:underline decoration-primary transition-all" href="#">Privacy Policy</a>
+<a class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant hover:underline decoration-primary transition-all" href="#">Terms of Service</a>
+<a class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant hover:underline decoration-primary transition-all" href="#">Contact Us</a>
+</div>
+</div>
+<div class="flex flex-col gap-sm md:items-end">
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-on-primary dark:text-primary cursor-pointer hover:opacity-70">rss_feed</span>
+<span class="material-symbols-outlined text-on-primary dark:text-primary cursor-pointer hover:opacity-70">mail</span>
+</div>
+<span class="font-meta-data text-meta-data text-on-secondary-fixed-variant dark:text-on-surface-variant md:text-right">© 2024 InsightHub. All rights reserved.</span>
+</div>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple hover effect for trending items
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Potential for lightweight JS effects if needed
+            });
+        });
+        
+        // Search bar activation focus
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/50');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/50');
+        });
+    </script>
+
+
+</body></html>

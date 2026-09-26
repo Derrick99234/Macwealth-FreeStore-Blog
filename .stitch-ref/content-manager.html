@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Content Manager - InsightHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f7f9fb",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#5c647a",
+                    "inverse-surface": "#2d3133",
+                    "secondary-container": "#dae2fd",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed": "#131b2e",
+                    "primary-fixed": "#e2dfff",
+                    "on-error": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "tertiary": "#005338",
+                    "outline": "#777587",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#0f0069",
+                    "background": "#f7f9fb",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary-container": "#67f4b7",
+                    "on-background": "#191c1e",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "primary": "#3525cd",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "secondary": "#565e74",
+                    "on-primary-container": "#dad7ff",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed": "#6ffbbe",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "surface-container-low": "#f2f4f6",
+                    "primary-container": "#4f46e5",
+                    "outline-variant": "#c7c4d8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "tertiary-container": "#006e4b",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-surface-variant": "#464555",
+                    "secondary-fixed": "#dae2fd",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-tertiary-fixed": "#002113",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#c3c0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "lg": "48px",
+                    "article-max": "720px",
+                    "xl": "80px",
+                    "container-max": "1200px",
+                    "md": "24px",
+                    "xs": "8px",
+                    "sm": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "body-main": ["Merriweather"],
+                    "article-title-mobile": ["Merriweather"],
+                    "display-lg-mobile": ["Inter"],
+                    "ui-label": ["Inter"],
+                    "meta-data": ["Inter"],
+                    "article-title": ["Merriweather"],
+                    "ui-button": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-main": ["18px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "article-title-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "ui-label": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "meta-data": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "article-title": ["40px", {"lineHeight": "52px", "fontWeight": "700"}],
+                    "ui-button": ["15px", {"lineHeight": "20px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c7c4d8;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-ui-label text-ui-label">
+<!-- SideNavBar (Predicted Anchor) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex flex-col h-full py-md z-50">
+<div class="px-sm mb-lg">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed mb-xs">Admin Panel</h1>
+<p class="text-on-surface-variant text-meta-data font-meta-data">Editor Workspace</p>
+</div>
+<nav class="flex-grow space-y-xs px-xs">
+<!-- Dashboard (Inactive) -->
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 group">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span class="font-ui-label text-ui-label">Dashboard</span>
+</div>
+<!-- Content (Active) -->
+<div class="flex items-center gap-xs px-sm py-xs text-primary dark:text-primary-fixed border-l-2 border-primary dark:border-primary-fixed bg-secondary-container dark:bg-secondary-fixed-dim cursor-pointer active:scale-95">
+<span class="material-symbols-outlined text-xl" data-icon="article">article</span>
+<span class="font-ui-label text-ui-label">Content</span>
+</div>
+<!-- Editor (Inactive) -->
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 group">
+<span class="material-symbols-outlined text-xl" data-icon="edit_note">edit_note</span>
+<span class="font-ui-label text-ui-label">Editor</span>
+</div>
+<!-- Settings (Inactive) -->
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 group">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span class="font-ui-label text-ui-label">Settings</span>
+</div>
+</nav>
+<div class="px-sm mt-auto pt-md border-t border-outline-variant">
+<button class="w-full flex items-center justify-center gap-xs bg-primary text-on-primary py-sm rounded-lg font-ui-button text-ui-button hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Post
+            </button>
+<div class="mt-md flex items-center gap-sm px-xs">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional studio headshot of a creative administrator with a clean, minimalist background. The lighting is soft and high-key, reflecting a modern light-mode interface. The person is dressed in neutral, elegant attire. The visual style is crisp and editorial, fitting for a premium digital workspace environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG8AIE4Qd4J0XmqBcvbU1JPrY2iyC9TW5YS0IuvS2YN2LPW15GsF0-bBcKa1Jkf4tf42esCKQgO6I1FYECnVVj-lRbnKRHHh06yQL8MWmeRXmEnMQppJdXYgExHrWvJ_6plg3IYkckv4jUGkUFNA_nzhQtWAaYSJKu4uqHo0qHK7NgzUvEYA5T0xMrlIwJbdMxur0FgIiQV_JNwhv-3HAbhElaj8lc0YkU7Xwjb3lJAMQqvDbfZMh8wQ"/>
+</div>
+<div class="overflow-hidden">
+<p class="font-ui-label text-ui-label text-on-surface truncate">Admin Profile</p>
+<p class="text-meta-data font-meta-data text-on-surface-variant truncate">editor@insighthub.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen bg-surface-bright p-lg">
+<header class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+<div>
+<h2 class="font-display-lg text-primary mb-xs">Content Manager</h2>
+<p class="text-on-surface-variant font-meta-data text-meta-data">Manage and organize your published articles and drafts.</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-xl pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-ui-label text-ui-label w-64" placeholder="Search posts..." type="text"/>
+</div>
+<button class="flex items-center gap-xs bg-surface-container-lowest border border-outline-variant px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors text-on-surface-variant font-ui-button text-ui-button">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                    Filter
+                </button>
+</div>
+</header>
+<!-- Stats Overview (Asymmetric Bento Lite) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md mb-lg">
+<div class="bg-surface-container-lowest p-md border border-outline-variant rounded-lg flex items-center gap-md">
+<div class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div>
+<p class="text-meta-data font-meta-data text-on-surface-variant">Total Posts</p>
+<p class="text-display-lg-mobile font-display-lg-mobile text-on-surface">124</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-md border border-outline-variant rounded-lg flex items-center gap-md">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="text-meta-data font-meta-data text-on-surface-variant">Published</p>
+<p class="text-display-lg-mobile font-display-lg-mobile text-on-surface">98</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-md border border-outline-variant rounded-lg flex items-center gap-md">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="edit_calendar">edit_calendar</span>
+</div>
+<div>
+<p class="text-meta-data font-meta-data text-on-surface-variant">Drafts</p>
+<p class="text-display-lg-mobile font-display-lg-mobile text-on-surface">26</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-md border border-outline-variant rounded-lg flex items-center gap-md">
+<div class="w-12 h-12 bg-error-container rounded-full flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<p class="text-meta-data font-meta-data text-on-surface-variant">Growth</p>
+<p class="text-display-lg-mobile font-display-lg-mobile text-on-surface">+12%</p>
+</div>
+</div>
+</div>
+<!-- Table View -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-[0px_10px_15px_-3px_rgba(15,23,42,0.04)]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-md py-sm font-ui-button text-ui-button text-on-surface-variant uppercase tracking-wider">Title</th>
+<th class="px-md py-sm font-ui-button text-ui-button text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-md py-sm font-ui-button text-ui-button text-on-surface-variant uppercase tracking-wider">Category</th>
+<th class="px-md py-sm font-ui-button text-ui-button text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="px-md py-sm font-ui-button text-ui-button text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-all group">
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors cursor-pointer">The Future of Generative AI in Professional Journalism</span>
+<span class="text-meta-data font-meta-data text-outline">Author: Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-meta-data text-meta-data">
+                                    Published
+                                </span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-ui-label text-ui-label">Technology</span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-meta-data text-meta-data">Oct 12, 2024</span>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Preview">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded transition-all active:scale-90" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-all group">
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors cursor-pointer">10 Minimalist Design Principles for Content-First Platforms</span>
+<span class="text-meta-data font-meta-data text-outline">Author: Marcus Thorne</span>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-secondary-container text-on-secondary-fixed-variant font-meta-data text-meta-data">
+                                    Draft
+                                </span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-ui-label text-ui-label">Design</span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-meta-data text-meta-data">Oct 14, 2024</span>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Preview">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded transition-all active:scale-90" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-all group">
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors cursor-pointer">Deep Work: Why Silence is the Ultimate Luxury for Writers</span>
+<span class="text-meta-data font-meta-data text-outline">Author: Elena Rodriguez</span>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-meta-data text-meta-data">
+                                    Published
+                                </span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-ui-label text-ui-label">Psychology</span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-meta-data text-meta-data">Oct 08, 2024</span>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Preview">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded transition-all active:scale-90" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-all group">
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors cursor-pointer">Sustainable Digital Infrastructure: The Green Side of Data</span>
+<span class="text-meta-data font-meta-data text-outline">Author: David Chen</span>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-meta-data text-meta-data">
+                                    Published
+                                </span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-ui-label text-ui-label">Ethics</span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-meta-data text-meta-data">Sep 30, 2024</span>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Preview">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded transition-all active:scale-90" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-lowest transition-all group">
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-ui-label text-ui-label text-on-surface group-hover:text-primary transition-colors cursor-pointer">Understanding the Attention Economy in 2025</span>
+<span class="text-meta-data font-meta-data text-outline">Author: Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-secondary-container text-on-secondary-fixed-variant font-meta-data text-meta-data">
+                                    Draft
+                                </span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-ui-label text-ui-label">Marketing</span>
+</td>
+<td class="px-md py-md">
+<span class="text-on-surface-variant font-meta-data text-meta-data">Scheduled</span>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Preview">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded transition-all active:scale-90" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded transition-all active:scale-90" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-md py-sm bg-surface-container-low border-t border-outline-variant flex items-center justify-between">
+<span class="text-meta-data font-meta-data text-on-surface-variant">Showing 1 to 5 of 124 results</span>
+<div class="flex items-center gap-xs">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-sm py-xs bg-primary text-on-primary rounded-lg font-ui-label text-ui-label">1</button>
+<button class="px-sm py-xs hover:bg-surface-container-high rounded-lg font-ui-label text-ui-label text-on-surface-variant">2</button>
+<button class="px-sm py-xs hover:bg-surface-container-high rounded-lg font-ui-label text-ui-label text-on-surface-variant">3</button>
+<button class="px-sm py-xs hover:bg-surface-container-high rounded-lg font-ui-label text-ui-label text-on-surface-variant">...</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Bento: Recent Activity & Top Categories -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mt-lg">
+<div class="md:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-lg p-md">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-ui-button text-ui-button text-on-surface">Recent Activity</h3>
+<button class="text-primary font-meta-data text-meta-data hover:underline">View All</button>
+</div>
+<ul class="space-y-sm">
+<li class="flex items-start gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary-container shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="history_edu">history_edu</span>
+</div>
+<div class="flex-grow">
+<p class="text-ui-label font-ui-label text-on-surface">Sarah Jenkins published <span class="font-bold text-primary">"The Future of Generative AI..."</span></p>
+<p class="text-meta-data font-meta-data text-outline">2 hours ago</p>
+</div>
+</li>
+<li class="flex items-start gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="sync">sync</span>
+</div>
+<div class="flex-grow">
+<p class="text-ui-label font-ui-label text-on-surface">Marcus Thorne updated draft <span class="font-bold">"10 Minimalist Design..."</span></p>
+<p class="text-meta-data font-meta-data text-outline">5 hours ago</p>
+</div>
+</li>
+<li class="flex items-start gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-error shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete_sweep">delete_sweep</span>
+</div>
+<div class="flex-grow">
+<p class="text-ui-label font-ui-label text-on-surface">System purged 12 expired temporary drafts</p>
+<p class="text-meta-data font-meta-data text-outline">Yesterday at 11:45 PM</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md">
+<h3 class="font-ui-button text-ui-button text-on-surface mb-md">Category Distribution</h3>
+<div class="space-y-sm">
+<div>
+<div class="flex justify-between text-meta-data font-meta-data mb-xs">
+<span class="text-on-surface-variant">Technology</span>
+<span class="text-on-surface">42%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-meta-data font-meta-data mb-xs">
+<span class="text-on-surface-variant">Psychology</span>
+<span class="text-on-surface">28%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-tertiary h-2 rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-meta-data font-meta-data mb-xs">
+<span class="text-on-surface-variant">Design</span>
+<span class="text-on-surface">15%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-meta-data font-meta-data mb-xs">
+<span class="text-on-surface-variant">Other</span>
+<span class="text-on-surface">15%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-outline-variant h-2 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Table row hover visual reinforcement
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    row.style.boxShadow = 'inset 4px 0 0 #3525cd';
+                });
+                row.addEventListener('mouseleave', () => {
+                    row.style.boxShadow = 'none';
+                });
+            });
+
+            // Action button interactions
+            const actionButtons = document.querySelectorAll('button[title]');
+            actionButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const action = btn.getAttribute('title');
+                    const postTitle = btn.closest('tr').querySelector('.font-ui-label').innerText;
+                    console.log(`${action} triggered for: ${postTitle}`);
+                    
+                    // Simple feedback pulse
+                    btn.classList.add('scale-125', 'text-primary');
+                    setTimeout(() => {
+                        btn.classList.remove('scale-125', 'text-primary');
+                    }, 200);
+                });
+            });
+        });
+    </script>
+</body></html>
