@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Table } from "@/components/ui/Table";
 import { Badge } from "@/components/ui/Badge";
 import { Pagination } from "@/components/ui/Pagination";
+import { calculateReadTime } from "@/lib/utils";
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -18,6 +19,8 @@ type PostItem = {
   author: { name: string } | null;
   createdAt: string;
   slug: string;
+  content?: string;
+  viewCount?: number;
 };
 
 export default function ContentManager() {
@@ -73,8 +76,19 @@ export default function ContentManager() {
       label: "Title",
       render: (item: PostItem) => (
         <div className="flex flex-col">
-          <span className="text-ui-label text-on-surface font-ui-label cursor-pointer">{item.title}</span>
-          <span className="text-meta-data text-outline font-meta-data">Author: {item.author?.name || "Unknown"}</span>
+          <span
+            onClick={() => router.push(`/admin/editor/${item.id}`)}
+            className="text-ui-label text-on-surface font-ui-label cursor-pointer hover:text-primary transition-colors line-clamp-1"
+          >
+            {item.title}
+          </span>
+          <div className="flex items-center gap-2 text-meta-data text-outline font-meta-data">
+            <span>By {item.author?.name || "Unknown"}</span>
+            <span>·</span>
+            <span>{calculateReadTime(item.content || "")}</span>
+            <span>·</span>
+            <span>{(item.viewCount || 0).toLocaleString()} views</span>
+          </div>
         </div>
       ),
     },

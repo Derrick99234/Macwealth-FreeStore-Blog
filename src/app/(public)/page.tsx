@@ -4,6 +4,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { DEFAULT_POST_IMAGE, DEFAULT_AI_IMAGE } from "@/lib/images";
+import { calculateReadTime } from "@/lib/utils";
 
 export const revalidate = 60; // Revalidate every 60s
 
@@ -99,7 +100,7 @@ export default async function HomePage({
                     </span>
                   )}
                   <span className="text-xs text-slate-400 bg-slate-800/60 px-2.5 py-1 rounded-full">
-                    8 min read
+                    {calculateReadTime(featuredPost.content)}
                   </span>
                 </div>
 
@@ -241,12 +242,16 @@ export default async function HomePage({
                           {post.author.name}
                         </span>
                       </div>
-                      <span>
-                        {new Date(post.publishedAt || post.createdAt).toLocaleDateString(undefined, {
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </span>
+                      <div className="flex items-center gap-1.5 text-slate-400">
+                        <span>
+                          {new Date(post.publishedAt || post.createdAt).toLocaleDateString(undefined, {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                        <span>·</span>
+                        <span className="text-indigo-400/90">{calculateReadTime(post.content)}</span>
+                      </div>
                     </div>
                   </div>
                 </article>

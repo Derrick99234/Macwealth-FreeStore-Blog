@@ -4,6 +4,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { DEFAULT_POST_IMAGE } from "@/lib/images";
+import { calculateReadTime } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -71,6 +72,10 @@ export default async function PopularPage() {
                     <span className="text-xs text-amber-400 font-mono">
                       {formatViews(topPost.viewCount)}
                     </span>
+                    <span className="text-xs text-slate-500">·</span>
+                    <span className="text-xs text-indigo-300 font-medium">
+                      {calculateReadTime(topPost.content)}
+                    </span>
                   </div>
 
                   <Link href={`/${topPost.slug}`}>
@@ -111,9 +116,11 @@ export default async function PopularPage() {
                       <span className="text-xs font-mono font-bold text-slate-400 bg-[#161a26] px-2.5 py-1 rounded-full border border-white/5">
                         Rank 0{idx + 2}
                       </span>
-                      <span className="text-xs text-slate-400 font-mono">
-                        {formatViews(post.viewCount)}
-                      </span>
+                      <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
+                        <span>{formatViews(post.viewCount)}</span>
+                        <span>·</span>
+                        <span className="text-indigo-400/90">{calculateReadTime(post.content)}</span>
+                      </div>
                     </div>
 
                     <Link href={`/${post.slug}`}>
@@ -153,9 +160,11 @@ export default async function PopularPage() {
                     <span className="text-xs font-mono font-bold text-slate-500">
                       #{idx + 4}
                     </span>
-                    <span className="text-xs text-slate-400 font-mono">
-                      {formatViews(post.viewCount)}
-                    </span>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
+                      <span>{formatViews(post.viewCount)}</span>
+                      <span>·</span>
+                      <span className="text-indigo-400/90">{calculateReadTime(post.content)}</span>
+                    </div>
                   </div>
 
                   <Link href={`/${post.slug}`}>

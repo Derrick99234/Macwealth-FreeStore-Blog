@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
 import { DEFAULT_POST_IMAGE, DEFAULT_AI_IMAGE } from "@/lib/images";
+import { calculateReadTime, formatArticleHtml } from "@/lib/utils";
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString("en-US", {
@@ -13,10 +14,6 @@ function formatDate(d: string) {
     day: "numeric",
     year: "numeric",
   });
-}
-
-function readTime(content: string) {
-  return `${Math.max(1, Math.ceil(content.split(/\s+/).length / 200))} min read`;
 }
 
 export default function ArticlePage() {
@@ -123,7 +120,7 @@ export default function ArticlePage() {
               </div>
 
               <div className="bg-[#151924] border border-white/[0.08] px-3 py-1 rounded-full text-slate-300">
-                {readTime(post.content)}
+                {calculateReadTime(post.content)}
               </div>
             </div>
           </div>
@@ -140,49 +137,10 @@ export default function ArticlePage() {
 
         {/* Article Body */}
         <article className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-          <div className="space-y-6 text-base sm:text-lg leading-relaxed text-slate-300">
-            {post.content.split("\n\n").map((paragraph: string, i: number) => {
-              const trimmed = paragraph.trim();
-              if (!trimmed) return null;
-
-              if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
-                return (
-                  <blockquote
-                    key={i}
-                    className="relative pl-6 py-3 my-8 border-l-4 border-indigo-500 bg-[#121622] rounded-r-xl"
-                  >
-                    <p className="text-xl italic text-indigo-300 font-serif leading-relaxed">
-                      &ldquo;{trimmed.slice(1, -1)}&rdquo;
-                    </p>
-                  </blockquote>
-                );
-              }
-
-              if (trimmed.startsWith("## ")) {
-                return (
-                  <h2
-                    key={i}
-                    className="text-2xl font-bold tracking-tight text-white pt-6 mb-2"
-                  >
-                    {trimmed.slice(3)}
-                  </h2>
-                );
-              }
-
-              if (i === 0) {
-                return (
-                  <p
-                    key={i}
-                    className="first-letter:text-5xl first-letter:font-bold first-letter:text-indigo-400 first-letter:mr-3 first-letter:float-left first-letter:leading-none text-slate-200"
-                  >
-                    {trimmed}
-                  </p>
-                );
-              }
-
-              return <p key={i}>{trimmed}</p>;
-            })}
-          </div>
+          <div
+            className="article-prose text-base sm:text-lg leading-relaxed text-slate-300"
+            dangerouslySetInnerHTML={{ __html: formatArticleHtml(post.content) }}
+          />
 
           {/* Author Box */}
           <div className="mt-14 p-6 sm:p-8 bg-[#10141e] border border-white/[0.08] rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5">
