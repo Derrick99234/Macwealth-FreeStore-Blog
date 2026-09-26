@@ -21,10 +21,10 @@ export async function GET() {
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const [blogName, blogDescription, blogLogo, seoTitle, seoDescription, admin] = await Promise.all([
-    getSetting("blogName", process.env.BLOG_NAME || "InsightHub"),
+    getSetting("blogName", process.env.NEXT_PUBLIC_SITE_NAME || "Macwealth FreeStore"),
     getSetting("blogDescription", process.env.BLOG_DESCRIPTION || "A premium editorial platform for deep thinkers."),
     getSetting("blogLogo", process.env.BLOG_LOGO || ""),
-    getSetting("seoTitle", process.env.SEO_TITLE || "InsightHub — Deep Reads on Design, Tech & Culture"),
+    getSetting("seoTitle", process.env.SEO_TITLE || "Macwealth FreeStore — Deep Reads on Design, Tech & Culture"),
     getSetting("seoDescription", process.env.SEO_DESCRIPTION || ""),
     prisma.user.findFirst({
       where: { role: "ADMIN" },

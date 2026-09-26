@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "InsightHub | Modern Editorial Platform",
+  title: "Macwealth FreeStore | Modern Editorial Platform",
   description:
     "A premium editorial platform dedicated to the intersection of technology, design, and culture.",
 };

@@ -10,7 +10,7 @@ export default function AboutPage() {
           <div className="max-w-container-max mx-auto px-md py-xl">
             <div className="max-w-3xl">
               <h1 className="text-display-lg text-on-surface font-display-lg mb-sm">
-                About <span className="text-primary">InsightHub</span>
+                About <span className="text-primary">Macwealth FreeStore</span>
               </h1>
               <p className="text-body-main text-on-surface-variant font-body-main leading-[32px]">
                 A premium editorial platform dedicated to the intersection of
@@ -28,7 +28,7 @@ export default function AboutPage() {
                 Our Mission
               </h2>
               <p className="text-body-main text-on-surface-variant font-body-main leading-[32px] mb-md">
-                InsightHub was founded with a singular vision: to create a
+                Macwealth FreeStore was founded with a singular vision: to create a
                 sanctuary for deep thinking in an age of endless distraction.
                 We curate and commission long-form journalism, critical essays,
                 and design analysis that prioritizes substance over speed.

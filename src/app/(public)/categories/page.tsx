@@ -215,7 +215,7 @@ export default async function CategoriesPage() {
                   Never miss an update.
                 </h2>
                 <p className="text-body-main text-on-secondary-fixed-variant opacity-80 font-body-main">
-                  Get the best of InsightHub delivered to your inbox every
+                  Get the best of Macwealth FreeStore delivered to your inbox every
                   Thursday. No spam, just deep-dives.
                 </p>
               </div>

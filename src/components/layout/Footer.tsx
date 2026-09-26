@@ -40,7 +40,7 @@ function FooterHome() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-md px-md max-w-container-max mx-auto">
         <div className="flex flex-col gap-sm">
           <div className="text-display-lg-mobile text-on-primary font-display-lg">
-            InsightHub
+            Macwealth FreeStore
           </div>
           <p className="text-on-secondary-fixed-variant leading-relaxed">
             A premium editorial platform dedicated to the intersection of technology, design, and culture. We believe in high-focus reading and intellectual integrity.
@@ -86,7 +86,7 @@ function FooterHome() {
       <div className="max-w-container-max mx-auto px-md mt-lg pt-md border-t border-outline/20">
         <div className="flex flex-col md:flex-row justify-between items-center gap-sm">
           <p className="text-on-secondary-fixed-variant">
-            &copy; 2024 InsightHub. All rights reserved.
+            &copy; 2024 Macwealth FreeStore. All rights reserved.
           </p>
           <SocialIcons />
         </div>
@@ -100,7 +100,7 @@ function FooterArticle() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-md px-md max-w-container-max mx-auto">
       <div className="flex flex-col gap-sm">
         <div className="text-display-lg-mobile text-on-primary font-display-lg">
-          InsightHub
+          Macwealth FreeStore
         </div>
         <p className="text-on-secondary-fixed-variant leading-relaxed">
           Curating ideas that matter. Exploring the future of design, technology, and human creativity.
@@ -137,7 +137,7 @@ function FooterArticle() {
             Terms of Service
           </a>
           <p className="text-on-secondary-fixed-variant mt-sm">
-            &copy; 2024 InsightHub
+            &copy; 2024 Macwealth FreeStore
           </p>
         </div>
       </div>
@@ -150,7 +150,7 @@ function FooterPopular() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-md px-md max-w-container-max mx-auto">
       <div className="flex flex-col gap-sm">
         <div className="text-display-lg-mobile text-on-primary font-display-lg">
-          InsightHub
+          Macwealth FreeStore
         </div>
         <p className="text-on-secondary-fixed-variant leading-relaxed">
           Curating ideas that matter. Exploring the future of design, technology, and human creativity.
@@ -192,7 +192,7 @@ function FooterPopular() {
         </h4>
         <SocialIcons />
         <p className="text-on-secondary-fixed-variant mt-sm">
-          &copy; 2024 InsightHub
+          &copy; 2024 Macwealth FreeStore
         </p>
       </div>
     </div>
@@ -204,7 +204,7 @@ function FooterCategories() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-md px-md max-w-container-max mx-auto">
       <div className="flex flex-col gap-sm">
         <div className="text-display-lg-mobile text-on-primary font-display-lg">
-          InsightHub
+          Macwealth FreeStore
         </div>
         <p className="text-on-secondary-fixed-variant leading-relaxed">
           Curating ideas that matter. Exploring the future of design, technology, and human creativity.
@@ -261,7 +261,7 @@ function FooterCategories() {
           </div>
         </div>
         <p className="text-on-secondary-fixed-variant mt-sm">
-          &copy; 2024 InsightHub
+          &copy; 2024 Macwealth FreeStore
         </p>
       </div>
     </div>

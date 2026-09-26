@@ -69,7 +69,7 @@ export function AdminSidebar() {
               Admin Profile
             </p>
             <p className="text-meta-data text-on-surface-variant truncate font-meta-data">
-              admin@insighthub.com
+              admin@macwealthfreestore.com
             </p>
           </div>
         </div>

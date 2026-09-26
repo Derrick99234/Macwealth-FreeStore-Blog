@@ -15,9 +15,9 @@ export function Navbar() {
   return (
     <nav className="bg-surface-container-lowest w-full top-0 sticky z-50 border-b border-outline-variant">
       <div className="flex justify-between items-center px-md py-xs max-w-container-max mx-auto">
-        <div className="font-display-lg-mobile text-display-lg-mobile text-primary cursor-pointer">
-          FreeStore
-        </div>
+        <a href="/" className="font-display-lg-mobile text-display-lg-mobile text-primary cursor-pointer tracking-tight font-bold">
+          Macwealth FreeStore
+        </a>
         <div className="hidden md:flex gap-md items-center font-ui-label text-ui-label">
           {links.map((link) => {
             const isActive =
