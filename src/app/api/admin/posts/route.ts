@@ -52,9 +52,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Title and content are required" }, { status: 400 });
     }
 
-    let slug = slugify(title);
+    let slug = (body.slug && typeof body.slug === "string" && body.slug.trim()) 
+      ? slugify(body.slug) 
+      : slugify(title);
     const existing = await prisma.post.findUnique({ where: { slug } });
-    if (existing) slug = `${slug}-${Date.now()}`;
+    if (existing) slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
 
     const post = await prisma.post.create({
       data: {

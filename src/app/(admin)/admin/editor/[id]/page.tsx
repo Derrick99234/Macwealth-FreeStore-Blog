@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
-import { calculateReadTime } from "@/lib/utils";
+import { calculateReadTime, slugify } from "@/lib/utils";
 
 export default function EditPost() {
   const params = useParams();
@@ -58,7 +58,7 @@ export default function EditPost() {
 
   useEffect(() => {
     if (!slugEdited && title && !loading) {
-      setSlug(title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
+      setSlug(slugify(title));
     }
   }, [title, slugEdited, loading]);
 
@@ -308,8 +308,20 @@ export default function EditPost() {
             </div>
 
             {/* URL Slug */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Slug</label>
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Slug</label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSlug(slugify(title));
+                    setSlugEdited(false);
+                  }}
+                  className="text-[11px] text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Sync from title
+                </button>
+              </div>
               <input
                 className="w-full px-3.5 py-2 bg-[#0a0d14] border border-white/[0.1] rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                 value={slug}
@@ -320,6 +332,9 @@ export default function EditPost() {
                 placeholder="post-url-slug"
                 type="text"
               />
+              <p className="text-[11px] text-slate-500">
+                Live URL: <span className="text-indigo-400/90 font-mono">/{slug || "slug"}</span>
+              </p>
             </div>
 
             {/* Category */}
