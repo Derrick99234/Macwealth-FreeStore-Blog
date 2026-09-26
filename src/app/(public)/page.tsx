@@ -265,8 +265,11 @@ export default async function HomePage({
           <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Thoughtful writing on architecture, intelligence, and modern culture
+              Transformational teachings on spiritual growth, financial wisdom, and purposeful living
             </h2>
+            <p className="text-sm text-slate-400">
+              Join thousands receiving inspiring messages, prophetic insight, and practical life strategies from Dr. Isaiah Macwealth.
+            </p>
             <NewsletterForm variant="banner" />
           </div>
         </section>

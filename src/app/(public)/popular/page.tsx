@@ -9,10 +9,11 @@ import { calculateReadTime } from "@/lib/utils";
 export const revalidate = 60;
 
 function formatViews(count: number) {
+  if (!count || count <= 0) return null;
   if (count >= 1000) {
     return `${(count / 1000).toFixed(1)}k views`;
   }
-  return `${count} views`;
+  return count === 1 ? "1 view" : `${count} views`;
 }
 
 export default async function PopularPage() {
@@ -38,10 +39,10 @@ export default async function PopularPage() {
         {/* Header */}
         <section className="mb-12">
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-3">
-            Popular Perspectives
+            Impactful Teachings
           </h1>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl">
-            The most widely read and discussed insights across technology, architectural theory, and cognitive performance.
+            The most widely read messages and practical wisdom on spiritual growth, financial stewardship, and purposeful living.
           </p>
         </section>
 
@@ -69,10 +70,14 @@ export default async function PopularPage() {
                         {topPost.category.name}
                       </span>
                     )}
-                    <span className="text-xs text-amber-400 font-mono">
-                      {formatViews(topPost.viewCount)}
-                    </span>
-                    <span className="text-xs text-slate-500">·</span>
+                    {formatViews(topPost.viewCount) && (
+                      <>
+                        <span className="text-xs text-amber-400 font-mono">
+                          {formatViews(topPost.viewCount)}
+                        </span>
+                        <span className="text-xs text-slate-500">·</span>
+                      </>
+                    )}
                     <span className="text-xs text-indigo-300 font-medium">
                       {calculateReadTime(topPost.content)}
                     </span>
@@ -117,8 +122,12 @@ export default async function PopularPage() {
                         Rank 0{idx + 2}
                       </span>
                       <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-                        <span>{formatViews(post.viewCount)}</span>
-                        <span>·</span>
+                        {formatViews(post.viewCount) && (
+                          <>
+                            <span>{formatViews(post.viewCount)}</span>
+                            <span>·</span>
+                          </>
+                        )}
                         <span className="text-indigo-400/90">{calculateReadTime(post.content)}</span>
                       </div>
                     </div>
@@ -161,8 +170,12 @@ export default async function PopularPage() {
                       #{idx + 4}
                     </span>
                     <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-                      <span>{formatViews(post.viewCount)}</span>
-                      <span>·</span>
+                      {formatViews(post.viewCount) && (
+                        <>
+                          <span>{formatViews(post.viewCount)}</span>
+                          <span>·</span>
+                        </>
+                      )}
                       <span className="text-indigo-400/90">{calculateReadTime(post.content)}</span>
                     </div>
                   </div>

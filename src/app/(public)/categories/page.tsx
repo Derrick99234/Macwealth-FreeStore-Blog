@@ -28,7 +28,7 @@ export default async function CategoriesPage() {
                 Explore by <span className="text-indigo-400">Category</span>
               </h1>
               <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                Dive deep into specialized archives. Every category is curated for intellectual clarity, technological foresight, and refined design.
+                Explore curated archives of spiritual wisdom, financial intelligence, prayer strategies, and personal development teachings by Dr. Isaiah Macwealth.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <span className="px-3.5 py-1.5 bg-[#171b26] border border-white/10 rounded-full text-xs font-medium text-slate-300">

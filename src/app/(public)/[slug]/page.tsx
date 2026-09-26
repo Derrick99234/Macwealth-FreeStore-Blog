@@ -122,6 +122,12 @@ export default function ArticlePage() {
               <div className="bg-[#151924] border border-white/[0.08] px-3 py-1 rounded-full text-slate-300">
                 {calculateReadTime(post.content)}
               </div>
+
+              {post.viewCount > 0 && (
+                <div className="bg-[#151924] border border-white/[0.08] px-3 py-1 rounded-full text-slate-300">
+                  {post.viewCount === 1 ? "1 view" : `${post.viewCount.toLocaleString()} views`}
+                </div>
+              )}
             </div>
           </div>
 
