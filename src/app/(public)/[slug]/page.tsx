@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { images } from "@/lib/images";
+import Link from "next/link";
 
 function formatDate(d: string) {
-  return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return new Date(d).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 function readTime(content: string) {
@@ -17,12 +21,18 @@ function readTime(content: string) {
 export default function ArticlePage() {
   const params = useParams();
   const [post, setPost] = useState<any>(null);
+  const [related, setRelated] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/posts/${params.slug}`)
       .then((r) => r.json())
-      .then((data) => setPost(data.post))
-      .catch(() => {});
+      .then((data) => {
+        setPost(data.post);
+        setRelated(data.related || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [params.slug]);
 
   useEffect(() => {
@@ -39,71 +49,108 @@ export default function ArticlePage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!post) return <div className="min-h-screen flex items-center justify-center text-on-surface-variant">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
+        <Navbar />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
+        <Navbar />
+        <div className="flex-grow flex flex-col items-center justify-center text-center p-6">
+          <h1 className="text-2xl font-bold text-white mb-2">Article Not Found</h1>
+          <p className="text-slate-400 mb-6">The story you are looking for does not exist or has been moved.</p>
+          <Link href="/" className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-500 transition-colors">
+            Return Home
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className="fixed top-0 left-0 h-1 bg-primary z-[60] transition-all duration-75" id="progress-bar" />
+    <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
+      {/* Reading Progress Indicator */}
+      <div
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-sky-400 z-[60] transition-all duration-75"
+        id="progress-bar"
+      />
+
       <Navbar />
-      <main className="min-h-screen">
-        <header className="max-w-container-max mx-auto px-md pt-lg md:pt-xl">
-          <div className="max-w-article-max mx-auto text-center mb-lg">
-            <div className="inline-flex items-center gap-xs text-primary font-ui-label text-ui-label uppercase tracking-widest mb-sm">
-              <span>{post.category?.name || "Article"}</span>
-            </div>
-            <h1 className="text-article-title-mobile md:text-article-title text-on-surface font-article-title mb-md leading-tight">
+
+      <main className="flex-grow">
+        {/* Header Section */}
+        <header className="max-w-4xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-8">
+          <div className="text-center mb-10">
+            {post.category && (
+              <div className="inline-block mb-4">
+                <Link
+                  href={`/?category=${post.category.slug}`}
+                  className="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20 hover:bg-indigo-500/20 transition-colors"
+                >
+                  {post.category.name}
+                </Link>
+              </div>
+            )}
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
               {post.title}
             </h1>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-sm md:gap-md">
-              <div className="flex items-center gap-xs">
-                <img
-                  src={post.author?.image || images.article.authorAvatar}
-                  alt={post.author?.name || ""}
-                  className="w-10 h-10 rounded-full object-cover border border-outline-variant"
-                />
-                <div className="text-left">
-                  <p className="text-ui-label text-on-surface font-bold font-ui-label">
-                    {post.author?.name}
-                  </p>
+
+            {/* Author and Metadata Bar - NO DOTS */}
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center font-bold text-white text-xs">
+                  {post.author?.name?.charAt(0) || "M"}
                 </div>
+                <span className="font-semibold text-slate-200">
+                  {post.author?.name || "Macwealth Editorial"}
+                </span>
               </div>
-              <div className="hidden md:block w-1 h-1 bg-outline-variant rounded-full" />
-              <div className="flex items-center gap-sm text-meta-data text-on-surface-variant font-meta-data">
-                <span className="flex items-center gap-xs">
-                  <span className="material-symbols-outlined text-[18px]">
-                    calendar_today
-                  </span>
-                  {post.publishedAt ? formatDate(post.publishedAt) : ""}
-                </span>
-                <span className="flex items-center gap-xs">
-                  <span className="material-symbols-outlined text-[18px]">
-                    schedule
-                  </span>
-                  {readTime(post.content)}
-                </span>
+
+              <div className="bg-[#151924] border border-white/[0.08] px-3 py-1 rounded-full text-slate-300">
+                {post.publishedAt ? formatDate(post.publishedAt) : formatDate(post.createdAt)}
+              </div>
+
+              <div className="bg-[#151924] border border-white/[0.08] px-3 py-1 rounded-full text-slate-300">
+                {readTime(post.content)}
               </div>
             </div>
           </div>
-          <div className="w-full aspect-[21/9] rounded-xl overflow-hidden mb-lg shadow-sm border border-outline-variant">
+
+          {/* Featured Hero Image */}
+          <div className="w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-white/[0.08] bg-[#121620]">
             <img
-              src={post.featuredImage || images.article.featured}
+              src={post.featuredImage || "/images/hero-illustration.jpg"}
               alt={post.title}
               className="w-full h-full object-cover"
             />
           </div>
         </header>
 
-        <article className="max-w-article-max mx-auto px-md py-md">
-          <div className="space-y-6 leading-[32px] text-body-main text-on-surface font-body-main">
+        {/* Article Body */}
+        <article className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+          <div className="space-y-6 text-base sm:text-lg leading-relaxed text-slate-300">
             {post.content.split("\n\n").map((paragraph: string, i: number) => {
               const trimmed = paragraph.trim();
               if (!trimmed) return null;
 
               if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
                 return (
-                  <blockquote key={i} className="relative pl-lg my-lg">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-                    <p className="text-article-title-mobile italic text-primary font-article-title-mobile leading-relaxed">
+                  <blockquote
+                    key={i}
+                    className="relative pl-6 py-3 my-8 border-l-4 border-indigo-500 bg-[#121622] rounded-r-xl"
+                  >
+                    <p className="text-xl italic text-indigo-300 font-serif leading-relaxed">
                       &ldquo;{trimmed.slice(1, -1)}&rdquo;
                     </p>
                   </blockquote>
@@ -112,7 +159,10 @@ export default function ArticlePage() {
 
               if (trimmed.startsWith("## ")) {
                 return (
-                  <h2 key={i} className="text-article-title-mobile text-on-surface font-article-title-mobile pt-md">
+                  <h2
+                    key={i}
+                    className="text-2xl font-bold tracking-tight text-white pt-6 mb-2"
+                  >
                     {trimmed.slice(3)}
                   </h2>
                 );
@@ -120,7 +170,10 @@ export default function ArticlePage() {
 
               if (i === 0) {
                 return (
-                  <p key={i} className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+                  <p
+                    key={i}
+                    className="first-letter:text-5xl first-letter:font-bold first-letter:text-indigo-400 first-letter:mr-3 first-letter:float-left first-letter:leading-none text-slate-200"
+                  >
                     {trimmed}
                   </p>
                 );
@@ -130,132 +183,65 @@ export default function ArticlePage() {
             })}
           </div>
 
-          <div className="mt-lg pt-md border-t border-outline-variant flex flex-wrap gap-xs">
-            {["#FutureCities", "#GenerativeAI", "#SustainableDesign", "#Architecture"].map(
-              (tag) => (
-                <span
-                  key={tag}
-                  className="px-sm py-base bg-surface-container hover:bg-secondary-container transition-colors rounded-full text-meta-data text-on-surface-variant font-meta-data cursor-pointer"
-                >
-                  {tag}
-                </span>
-              )
-            )}
-          </div>
-
-          <section className="mt-xl p-md bg-surface-container-low rounded-xl border border-outline-variant flex flex-col md:flex-row gap-md items-center md:items-start">
-            <img
-              src={images.article.authorBio}
-              alt="Elena Thorne"
-              className="w-24 h-24 rounded-full object-cover shrink-0 border border-outline-variant"
-            />
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-ui-label text-on-surface font-extrabold text-lg mb-base font-ui-label">
-                About Elena Thorne
+          {/* Author Box */}
+          <div className="mt-14 p-6 sm:p-8 bg-[#10141e] border border-white/[0.08] rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-600 to-sky-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-lg shadow-indigo-600/20">
+              {post.author?.name?.charAt(0) || "M"}
+            </div>
+            <div className="text-center sm:text-left">
+              <h3 className="text-base font-bold text-white mb-1">
+                Written by {post.author?.name || "Macwealth Editorial"}
               </h3>
-              <p className="text-meta-data text-on-surface-variant font-meta-data mb-sm">
-                Elena is an award-winning architect and urban strategist based in
-                London. With over 15 years of experience, she focuses on the
-                intersection of artificial intelligence and sustainable urban
-                planning. Her latest book, &ldquo;The Code of Space,&rdquo;
-                explores how algorithms are reviving classical design principles.
+              <p className="text-xs text-slate-400 leading-relaxed mb-3">
+                Contributor and editorial researcher covering technology, deep work, and human-centric software paradigms.
               </p>
-              <div className="flex justify-center md:justify-start gap-sm">
-                <span className="material-symbols-outlined text-primary hover:opacity-70 transition-opacity cursor-pointer">
-                  public
-                </span>
-                <span className="material-symbols-outlined text-primary hover:opacity-70 transition-opacity cursor-pointer">
-                  alternate_email
-                </span>
-                <span className="material-symbols-outlined text-primary hover:opacity-70 transition-opacity cursor-pointer">
-                  share
-                </span>
+              <div className="flex justify-center sm:justify-start gap-3 text-xs text-indigo-400">
+                <Link href="/" className="hover:underline">
+                  More articles from this author
+                </Link>
               </div>
             </div>
-          </section>
+          </div>
         </article>
 
-        <section className="bg-surface-container-lowest py-xl border-t border-outline-variant">
-          <div className="max-w-container-max mx-auto px-md">
-            <div className="flex justify-between items-end mb-lg">
-              <div>
-                <h2 className="text-display-lg-mobile text-on-surface font-display-lg">
-                  Related Insights
-                </h2>
-                <p className="text-meta-data text-on-surface-variant font-meta-data">
-                  More deep dives into technology and design.
-                </p>
-              </div>
-              <button className="hidden md:flex items-center gap-xs text-ui-button text-primary font-ui-button hover:gap-sm transition-all">
-                View All
-                <span className="material-symbols-outlined">arrow_forward</span>
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-              {[
-                {
-                  category: "Innovation",
-                  title: "Smart Materials: Buildings That Heal Themselves",
-                  img: images.article.related1,
-                },
-                {
-                  category: "Sustainability",
-                  title: "The Psychology of Biophilic Urban Spaces",
-                  img: images.article.related2,
-                },
-                {
-                  category: "Logistics",
-                  title: "Autonomous Cities: Navigating the Drone Age",
-                  img: images.article.related3,
-                },
-              ].map((related) => (
-                <div key={related.title} className="group cursor-pointer">
-                  <div className="aspect-video rounded-lg overflow-hidden mb-sm border border-outline-variant relative">
+        {/* Related Posts Section */}
+        {related.length > 0 && (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 border-t border-white/[0.06]">
+            <h2 className="text-xl font-bold text-white mb-6">Related Stories</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {related.map((item) => (
+                <article
+                  key={item.id}
+                  className="bg-[#10141e] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all group"
+                >
+                  <Link href={`/${item.slug}`} className="block aspect-[16/10] overflow-hidden">
                     <img
-                      src={related.img}
-                      alt={related.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      src={item.featuredImage || "/images/ai-creative.jpg"}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <div className="p-5">
+                    <Link href={`/${item.slug}`}>
+                      <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors line-clamp-2 mb-2">
+                        {item.title}
+                      </h3>
+                    </Link>
+                    <p className="text-xs text-slate-400 line-clamp-2 mb-3">
+                      {item.excerpt || item.content.slice(0, 100)}...
+                    </p>
+                    <span className="text-[11px] text-slate-500">
+                      {item.publishedAt ? formatDate(item.publishedAt) : formatDate(item.createdAt)}
+                    </span>
                   </div>
-                  <span className="text-meta-data text-primary uppercase font-bold tracking-tight font-meta-data">
-                    {related.category}
-                  </span>
-                  <h3 className="text-ui-label text-lg text-on-surface font-ui-label group-hover:text-primary transition-colors mt-base">
-                    {related.title}
-                  </h3>
-                </div>
+                </article>
               ))}
             </div>
-          </div>
-        </section>
-
-        <section className="bg-primary py-lg">
-          <div className="max-w-container-max mx-auto px-md text-center">
-            <h2 className="text-display-lg-mobile text-on-primary font-display-lg mb-sm">
-              Stay ahead of the curve.
-            </h2>
-            <p className="text-body-main text-on-primary-container max-w-xl mx-auto mb-md opacity-90 font-body-main">
-              Join 25,000+ industry professionals receiving our weekly analysis
-              on the intersection of design, tech, and humanity.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-sm max-w-lg mx-auto">
-              <input
-                className="flex-1 px-sm py-xs rounded-lg border-none focus:ring-2 focus:ring-on-primary text-on-surface"
-                placeholder="Enter your email"
-                type="email"
-              />
-              <button
-                type="submit"
-                className="bg-on-primary text-primary font-ui-button text-ui-button px-md py-xs rounded-lg hover:bg-primary-fixed transition-colors"
-              >
-                Join Now
-              </button>
-            </form>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
+
       <Footer />
-    </>
+    </div>
   );
 }

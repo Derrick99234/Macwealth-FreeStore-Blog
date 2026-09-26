@@ -5,11 +5,15 @@ const prisma = new PrismaClient();
 
 async function main() {
   const admin = await prisma.user.upsert({
-    where: { email: "admin@insighthub.com" },
-    update: {},
+    where: { email: "admin@macwealthfreestore.com" },
+    update: {
+      name: "Admin",
+      hashedPassword: await bcrypt.hash("admin123", 10),
+      role: "ADMIN",
+    },
     create: {
       name: "Admin",
-      email: "admin@insighthub.com",
+      email: "admin@macwealthfreestore.com",
       hashedPassword: await bcrypt.hash("admin123", 10),
       role: "ADMIN",
     },
@@ -17,19 +21,19 @@ async function main() {
 
   const authors = await Promise.all([
     prisma.user.upsert({
-      where: { email: "elena@insighthub.com" },
+      where: { email: "elena@macwealthfreestore.com" },
       update: {},
-      create: { name: "Elena Thorne", email: "elena@insighthub.com", hashedPassword: await bcrypt.hash("author123", 10), role: "AUTHOR" },
+      create: { name: "Elena Thorne", email: "elena@macwealthfreestore.com", hashedPassword: await bcrypt.hash("author123", 10), role: "AUTHOR" },
     }),
     prisma.user.upsert({
-      where: { email: "marcus@insighthub.com" },
+      where: { email: "marcus@macwealthfreestore.com" },
       update: {},
-      create: { name: "Marcus Thorne", email: "marcus@insighthub.com", hashedPassword: await bcrypt.hash("author123", 10), role: "AUTHOR" },
+      create: { name: "Marcus Thorne", email: "marcus@macwealthfreestore.com", hashedPassword: await bcrypt.hash("author123", 10), role: "AUTHOR" },
     }),
     prisma.user.upsert({
-      where: { email: "sarah@insighthub.com" },
+      where: { email: "sarah@macwealthfreestore.com" },
       update: {},
-      create: { name: "Sarah Jenkins", email: "sarah@insighthub.com", hashedPassword: await bcrypt.hash("author123", 10), role: "AUTHOR" },
+      create: { name: "Sarah Jenkins", email: "sarah@macwealthfreestore.com", hashedPassword: await bcrypt.hash("author123", 10), role: "AUTHOR" },
     }),
   ]);
 
@@ -44,31 +48,124 @@ async function main() {
   ]);
 
   const posts = [
-    { title: "Generative AI: The New Creative Partner", slug: "generative-ai-new-creative-partner", content: "How artists and writers are using large language models to augment their creative process without losing their voice.\n\nArtists around the world are discovering that AI isn't replacing creativity—it's amplifying it. From DALL-E to Midjourney, the tools are reshaping how we think about artistic expression.", excerpt: "How artists and writers are using large language models to augment their creative process.", authorId: authors[1].id, categoryId: categories[0].id, status: "PUBLISHED" as const, viewCount: 42500 },
-    { title: "Craftsmanship in the Age of Scale", slug: "craftsmanship-in-the-age-of-scale", content: "Why physical objects and mechanical precision still matter in an increasingly ethereal, cloud-based world.\n\nIn a world of mass production, the handmade object carries a special kind of magic. This is the story of why craftsmanship persists.", excerpt: "Why physical objects and mechanical precision still matter.", authorId: authors[1].id, categoryId: categories[1].id, status: "PUBLISHED" as const, viewCount: 28000 },
-    { title: "The Future of Gastronomy", slug: "future-of-gastronomy", content: "Sustainable practices and molecular techniques that are redefining what it means to dine in the 21st century.\n\nFrom lab-grown meats to AI-designed recipes, the culinary world is undergoing a transformation as profound as any in its history.", excerpt: "Sustainable practices and molecular techniques redefining dining.", authorId: authors[2].id, categoryId: categories[3].id, status: "PUBLISHED" as const, viewCount: 19000 },
-    { title: "Urban Paradigms: Building for Community", slug: "urban-paradigms-building-for-community", content: "How architecture is evolving to foster human connection in the world's most densely populated cities.\n\nCities are more than collections of buildings—they're ecosystems of human interaction. The latest architectural thinking puts community at the center.", excerpt: "How architecture is evolving to foster human connection.", authorId: authors[0].id, categoryId: categories[1].id, status: "PUBLISHED" as const, viewCount: 15000 },
-    { title: "Quantum Computing: A Decadal Forecast", slug: "quantum-computing-decadal-forecast", content: "Understanding the roadmap to quantum advantage and what it means for cryptography, medicine, and climate modeling.\n\nQuantum computing is often described as being 10 years away—and has been for 30 years. But the landscape is shifting faster than ever.", excerpt: "The roadmap to quantum advantage and its implications.", authorId: authors[2].id, categoryId: categories[2].id, status: "PUBLISHED" as const, viewCount: 14200 },
-    { title: "Deep Work: Why Silence is the Ultimate Luxury", slug: "deep-work-silence-ultimate-luxury", content: "Rediscovering the power of focused attention in an age of constant digital distraction and notification overload.\n\nIn a world designed to fragment our attention, the ability to focus deeply has become the new superpower.", excerpt: "Rediscovering focused attention in an age of distraction.", authorId: authors[2].id, categoryId: categories[5].id, status: "PUBLISHED" as const, viewCount: 11000 },
-    { title: "The Silent Revolution: How Generative Design is Reshaping Our Cities", slug: "silent-revolution-generative-design", content: "Architecture has always been a conversation between the human imagination and the physical constraints of our world. For centuries, this dialogue was limited by the manual tools at our disposal—the compass, the ruler, and eventually, the CAD software that mirrored these physical objects in a digital space. But today, a new voice has entered the room.\n\nGenerative design is not just a tool; it is a collaborative partner that explores millions of iterations in the time it takes an architect to sketch a single floor plan.\n\nUnlike traditional modeling, where an architect defines the geometry, generative design allows the architect to define the goals. By inputting parameters such as solar exposure, wind patterns, material weight, and urban density, we can task algorithms with finding the most efficient and sustainable solutions.\n\n\"We are no longer just building structures; we are growing ecosystems that respond to their environment in real-time.\"\n\nConsider the case of the new 'Veridian District' in Copenhagen. Here, generative models were used to ensure that every single apartment received at least four hours of direct sunlight during the winter months, while simultaneously creating a wind-breaking effect for the central courtyard.\n\nThe future of our cities is not one of cold, calculated steel, but of intelligent, adaptive environments that breathe with the people who inhabit them.", excerpt: "A deep dive into how algorithms are becoming collaborative partners in architecture.", authorId: authors[0].id, categoryId: categories[2].id, status: "PUBLISHED" as const, viewCount: 9800 },
-    { title: "Reimagining Productivity: Beyond the To-Do List", slug: "reimagining-productivity-beyond-todo", content: "Why the most effective systems are the ones that adapt to your cognitive rhythms.\n\nThe traditional to-do list is a relic of an industrial mindset. The future of productivity is personalized, adaptive, and human-centered.", excerpt: "Why the most effective systems adapt to your cognitive rhythms.", authorId: authors[1].id, categoryId: categories[3].id, status: "PUBLISHED" as const, viewCount: 8400 },
-    { title: "The Invisible Architect: How AI Reshapes Human Agency", slug: "invisible-architect-ai-reshapes-agency", content: "An exploration of the subtle ways generative models are beginning to influence our daily decision-making processes.\n\nFrom movie recommendations to medical diagnoses, AI is quietly shaping the choices we make every day. This article explores the ethical implications.", excerpt: "How generative models influence our daily decision-making.", authorId: authors[0].id, categoryId: categories[0].id, status: "PUBLISHED" as const, viewCount: 42500 },
-    { title: "Sustainable Design in a Circular Economy", slug: "sustainable-design-circular-economy", content: "Why longevity is becoming the most disruptive feature in modern product development.\n\nThe circular economy is not just about recycling—it's about rethinking the entire lifecycle of products from design to disposal.", excerpt: "Why longevity is becoming the most disruptive feature.", authorId: authors[1].id, categoryId: categories[1].id, status: "PUBLISHED" as const, viewCount: 28000 },
-    { title: "The Psychology of Deep Work", slug: "psychology-of-deep-work", content: "Understanding the neurological pathways that enable peak cognitive performance.\n\nNeuroscience is revealing what happens in our brains when we enter states of deep concentration—and how we can cultivate more of it.", excerpt: "The neurological pathways that enable peak cognitive performance.", authorId: authors[2].id, categoryId: categories[5].id, status: "PUBLISHED" as const, viewCount: 19000 },
+    {
+      title: "The Silent Revolution: How Generative Design is Reshaping Our Cities",
+      slug: "silent-revolution-generative-design",
+      featuredImage: "/images/hero-illustration.jpg",
+      content: "Architecture has always been a conversation between the human imagination and the physical constraints of our world. For centuries, this dialogue was limited by the manual tools at our disposal—the compass, the ruler, and eventually, the CAD software that mirrored these physical objects in a digital space. But today, a new voice has entered the room.\n\nGenerative design is not just a tool; it is a collaborative partner that explores millions of iterations in the time it takes an architect to sketch a single floor plan.\n\nUnlike traditional modeling, where an architect defines the geometry, generative design allows the architect to define the goals. By inputting parameters such as solar exposure, wind patterns, material weight, and urban density, we can task algorithms with finding the most efficient and sustainable solutions.\n\n\"We are no longer just building structures; we are growing ecosystems that respond to their environment in real-time.\"\n\nConsider the case of the new 'Veridian District' in Copenhagen. Here, generative models were used to ensure that every single apartment received at least four hours of direct sunlight during the winter months, while simultaneously creating a wind-breaking effect for the central courtyard.\n\nThe future of our cities is not one of cold, calculated steel, but of intelligent, adaptive environments that breathe with the people who inhabit them.",
+      excerpt: "How algorithms and parametric intelligence are becoming collaborative partners in modern urban architecture.",
+      authorId: authors[0].id,
+      categoryId: categories[2].id,
+      status: "PUBLISHED" as const,
+      viewCount: 48500,
+    },
+    {
+      title: "Generative AI: The New Creative Partner",
+      slug: "generative-ai-new-creative-partner",
+      featuredImage: "/images/ai-creative.jpg",
+      content: "How artists and writers are using large language models to augment their creative process without losing their voice.\n\nArtists around the world are discovering that AI isn't replacing creativity—it's amplifying it. From synthetic visual art to assisted narrative construction, modern tools offer unexpected creative detours that expand human imagination.\n\nThe key is treating AI as a mirror and a sparring partner, rather than an automated producer.",
+      excerpt: "How artists and writers are using large models to augment their creative process without losing their human voice.",
+      authorId: authors[1].id,
+      categoryId: categories[0].id,
+      status: "PUBLISHED" as const,
+      viewCount: 42500,
+    },
+    {
+      title: "Deep Work: Why Silence is the Ultimate Luxury",
+      slug: "deep-work-silence-ultimate-luxury",
+      featuredImage: "/images/deep-focus.jpg",
+      content: "Rediscovering the power of focused attention in an age of constant digital distraction and notification overload.\n\nIn an attention economy designed to fragment human awareness, deep contemplation has become the rarest and most valuable cognitive commodity.\n\nTo think clearly is to create space where incoming stimuli cannot reach you.",
+      excerpt: "Rediscovering the immense power of focused contemplation in an age of notification overload.",
+      authorId: authors[2].id,
+      categoryId: categories[3].id,
+      status: "PUBLISHED" as const,
+      viewCount: 39100,
+    },
+    {
+      title: "Craftsmanship in the Age of Scale",
+      slug: "craftsmanship-in-the-age-of-scale",
+      featuredImage: "/images/hero-illustration.jpg",
+      content: "Why physical objects and mechanical precision still matter in an increasingly ethereal, cloud-based world.\n\nIn a world of ephemeral software and throwaway devices, the deliberate hand-crafted artifact commands profound respect.",
+      excerpt: "Why physical objects and mechanical precision still matter in an ethereal world.",
+      authorId: authors[1].id,
+      categoryId: categories[1].id,
+      status: "PUBLISHED" as const,
+      viewCount: 28000,
+    },
+    {
+      title: "The Invisible Architect: How AI Reshapes Human Agency",
+      slug: "invisible-architect-ai-reshapes-agency",
+      featuredImage: "/images/ai-creative.jpg",
+      content: "An exploration of the subtle ways generative models are beginning to influence our daily decision-making processes.\n\nFrom automated recommendation filters to predictive workflows, algorithmic suggestions gradually steer user preferences.",
+      excerpt: "An exploration of the subtle ways generative models influence our everyday decision-making.",
+      authorId: authors[0].id,
+      categoryId: categories[0].id,
+      status: "PUBLISHED" as const,
+      viewCount: 24300,
+    },
+    {
+      title: "Quantum Computing: A Decadal Forecast",
+      slug: "quantum-computing-decadal-forecast",
+      featuredImage: "/images/hero-illustration.jpg",
+      content: "Understanding the roadmap to quantum advantage and what it means for cryptography, medicine, and climate modeling.",
+      excerpt: "The realistic roadmap to quantum advantage and its near-term commercial implications.",
+      authorId: authors[2].id,
+      categoryId: categories[2].id,
+      status: "PUBLISHED" as const,
+      viewCount: 18200,
+    },
+    {
+      title: "The Psychology of Deep Work",
+      slug: "psychology-of-deep-work",
+      featuredImage: "/images/deep-focus.jpg",
+      content: "Understanding the neurological pathways that enable peak cognitive performance and sustained flow states.",
+      excerpt: "Understanding the neurological pathways that enable peak cognitive performance.",
+      authorId: authors[2].id,
+      categoryId: categories[5].id,
+      status: "PUBLISHED" as const,
+      viewCount: 16800,
+    },
   ];
 
   for (const post of posts) {
-    const existing = await prisma.post.findUnique({ where: { slug: post.slug } });
-    if (!existing) {
-      await prisma.post.create({
-        data: { ...post, publishedAt: new Date() },
-      });
-    }
+    await prisma.post.upsert({
+      where: { slug: post.slug },
+      update: {
+        featuredImage: post.featuredImage,
+        content: post.content,
+        excerpt: post.excerpt,
+        viewCount: post.viewCount,
+      },
+      create: {
+        title: post.title,
+        slug: post.slug,
+        content: post.content,
+        excerpt: post.excerpt,
+        featuredImage: post.featuredImage,
+        authorId: post.authorId,
+        categoryId: post.categoryId,
+        status: post.status,
+        viewCount: post.viewCount,
+        publishedAt: new Date(),
+      },
+    });
   }
 
-  console.log("Seed complete.");
+  // Update Settings
+  await prisma.setting.upsert({
+    where: { key: "blogName" },
+    update: { value: "Macwealth FreeStore" },
+    create: { key: "blogName", value: "Macwealth FreeStore" },
+  });
+
+  console.log("Seeding complete with custom illustrations and Macwealth FreeStore branding!");
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1); })
-  .finally(() => prisma.$disconnect());
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
