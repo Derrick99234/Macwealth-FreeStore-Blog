@@ -1,195 +1,146 @@
-"use client";
-
-import { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { DEFAULT_FOCUS_IMAGE } from "@/lib/images";
+import Link from "next/link";
+
+export const metadata = {
+  title: "About Us | Macwealth FreeStore Blog",
+  description: "Learn about the mission, vision, and heart behind Macwealth FreeStore and Dr. Isaiah Macwealth.",
+};
 
 export default function AboutPage() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setStatus("success");
-        setForm({ name: "", email: "", subject: "", message: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
       <Navbar />
 
-      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 w-full">
         {/* Hero Section */}
         <section className="mb-16">
           <div className="bg-gradient-to-br from-[#121622] via-[#0f121a] to-[#0c0e14] border border-white/[0.08] rounded-3xl p-8 sm:p-14 relative overflow-hidden shadow-2xl">
-            <div className="max-w-3xl space-y-4">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 max-w-3xl space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
+                Our Mission &amp; Purpose
+              </span>
               <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
                 About <span className="text-indigo-400">Macwealth FreeStore</span>
               </h1>
               <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
-                A premium editorial platform dedicated to the intersection of architecture, machine intelligence, and cognitive focus. We believe in high-clarity reading and intellectual depth.
+                Empowering believers worldwide with free access to life-transforming spiritual teachings, kingdom financial wisdom, and practical life strategies by Dr. Isaiah Macwealth.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Mission & Illustration Grid */}
-        <section className="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-6 space-y-6">
+        {/* Vision & Heart */}
+        <section className="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 space-y-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Our Vision for Modern Reading
+              A Mandate of Radical Generosity
             </h2>
             <p className="text-slate-400 leading-relaxed text-sm sm:text-base">
-              Macwealth FreeStore was created as a sanctuary for deep thinking in an age of fragmented attention. We curate and commission critical essays, architectural analysis, and technological forecasts that prioritize substance over vanity metrics.
+              <strong>Macwealth FreeStore</strong> was founded under the visionary leadership of <strong>Prophet Dr. Isaiah Macwealth</strong> with a singular, clear mandate: to dismantle barriers to spiritual growth and make divine wisdom accessible to everyone, everywhere, entirely free of charge.
             </p>
             <p className="text-slate-400 leading-relaxed text-sm sm:text-base">
-              Every perspective published undergoes rigorous editorial curation to ensure accuracy, originality, and conceptual depth. We treat ideas with the care they deserve.
+              Believing that the truth of God’s Word possesses the power to redeem minds, rebuild families, restore economies, and redirect human destiny, the FreeStore platform provides thousands of believers with unrestricted streaming and downloads of audio teachings, sermons, and spiritual literature.
+            </p>
+            <p className="text-slate-400 leading-relaxed text-sm sm:text-base">
+              This blog serves as the editorial voice of the FreeStore mission—condensing high-level spiritual revelations, kingdom financial laws, and mindset renewal into structured, readable articles for your daily personal devotion and growth.
             </p>
           </div>
 
-          <div className="lg:col-span-6 rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl aspect-[16/10]">
-            <img
-              src={DEFAULT_FOCUS_IMAGE}
-              alt="Editorial Meditation"
-              className="w-full h-full object-cover"
-            />
+          <div className="lg:col-span-5 bg-gradient-to-br from-[#121624] via-[#10141f] to-[#0c0e15] border border-white/[0.08] rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xl">
+              <span className="material-symbols-outlined">auto_awesome</span>
+            </div>
+            <h3 className="text-xl font-bold text-white">
+              The Heart Behind the Platform
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              <em>“Wisdom is good with an inheritance. What God places in your hands must be stewarded with diligence, illuminated by His Word, and multiplied through disciplined action.”</em>
+            </p>
+            <div className="pt-4 border-t border-white/[0.08]">
+              <p className="text-sm font-semibold text-white">Dr. Isaiah Macwealth</p>
+              <p className="text-xs text-slate-500">Author, Pastor, &amp; Founder</p>
+            </div>
           </div>
         </section>
 
-        {/* Core Values */}
+        {/* Core Pillars */}
         <section className="mb-20">
-          <h2 className="text-2xl font-bold text-white mb-8 text-center">Core Principles</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Our Core Pillars</h2>
+            <p className="text-slate-400 text-sm">
+              The four foundational cornerstones of every teaching published on Macwealth FreeStore Blog.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                title: "Depth Over Speed",
-                desc: "We prioritize thorough investigation and sustained cognitive clarity over fast-cycle breaking news.",
+                icon: "account_balance_wallet",
+                title: "Kingdom Stewardship",
+                desc: "Discovering biblical laws of financial growth, trading wisely, purposeful saving, and ethical wealth creation that honors God.",
               },
               {
-                title: "Human Agency",
-                desc: "Exploring how technological automation can augment human dignity and creative sovereignty rather than replace it.",
+                icon: "auto_awesome",
+                title: "Spiritual Depth",
+                desc: "Moving beyond superficial religious routines into intentional quiet time, divine intimacy, and confidence in the Father’s love.",
               },
               {
-                title: "Design Integrity",
-                desc: "Crafting quiet, distraction-free reading interfaces that respect your visual attention span.",
+                icon: "psychology",
+                title: "Mindset Renewal",
+                desc: "Replacing defeatist patterns with sound biblical thinking, intellectual diligence, and overcoming fear through Romans 12 and 2 Timothy 1.",
               },
-            ].map((val, i) => (
+              {
+                icon: "military_tech",
+                title: "Order & Discipline",
+                desc: "Establishing divine order, decisive living, and high-discipline routines that build true capacity for every new season of life.",
+              },
+            ].map((pillar, i) => (
               <div
                 key={i}
-                className="bg-[#10141e] border border-white/[0.07] rounded-2xl p-6 hover:border-indigo-500/30 transition-all shadow-lg"
+                className="bg-[#10141e] border border-white/[0.07] hover:border-indigo-500/30 rounded-2xl p-6 transition-all duration-300 shadow-lg flex flex-col justify-between"
               >
-                <span className="text-xs font-mono font-bold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full mb-4 inline-block">
-                  0{i + 1}
-                </span>
-                <h3 className="text-lg font-bold text-white mb-2">{val.title}</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{val.desc}</p>
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
+                    <span className="material-symbols-outlined text-xl">{pillar.icon}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">{pillar.title}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">{pillar.desc}</p>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Contact Inquiry Section */}
-        <section className="max-w-2xl mx-auto bg-[#10141e] border border-white/[0.08] rounded-3xl p-8 sm:p-10 shadow-2xl mb-12">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-white mb-2">Get in Touch</h2>
-            <p className="text-slate-400 text-sm">
-              Editorial submissions, press inquiries, or collaboration proposals.
+        {/* FreeStore Digital Platform Callout */}
+        <section className="bg-gradient-to-br from-[#121624] via-[#0f131e] to-[#0a0d14] border border-indigo-500/20 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden text-center">
+          <div className="max-w-2xl mx-auto space-y-5">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Access the Free Audio &amp; Media Store
+            </h2>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Looking for full sermon audio series, prophetic worship tracks, and extended masterclasses? Visit the main FreeStore platform to stream and download without cost.
             </p>
+            <div className="pt-2 flex flex-wrap justify-center gap-4">
+              <a
+                href="https://macwealthfreestore.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-6 py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20 inline-flex items-center gap-2"
+              >
+                <span>Visit Macwealth FreeStore</span>
+                <span className="material-symbols-outlined text-sm">open_in_new</span>
+              </a>
+              <Link
+                href="/contact"
+                className="bg-[#151926] hover:bg-[#1a2030] text-slate-300 hover:text-white text-xs font-semibold px-6 py-3 rounded-xl border border-white/10 transition-colors inline-flex items-center gap-2"
+              >
+                <span>Contact Our Team</span>
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+            </div>
           </div>
-
-          {status === "success" && (
-            <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-sm text-center">
-              Thank you! Your inquiry has been sent to our editorial desk.
-            </div>
-          )}
-
-          {status === "error" && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-sm text-center">
-              Failed to send inquiry. Please try again or email us directly at info@macwealthfreestore.com.
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Alex Mercer"
-                  className="w-full px-4 py-3 bg-[#0a0c10] border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="alex@domain.com"
-                  className="w-full px-4 py-3 bg-[#0a0c10] border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-                Subject
-              </label>
-              <input
-                type="text"
-                value={form.subject}
-                onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                placeholder="Editorial pitch / Question"
-                className="w-full px-4 py-3 bg-[#0a0c10] border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-                Message
-              </label>
-              <textarea
-                required
-                rows={4}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                placeholder="Write your note here..."
-                className="w-full px-4 py-3 bg-[#0a0c10] border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={status === "loading"}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50 cursor-pointer"
-            >
-              {status === "loading" ? "Sending..." : "Submit Inquiry"}
-            </button>
-          </form>
         </section>
       </main>
 

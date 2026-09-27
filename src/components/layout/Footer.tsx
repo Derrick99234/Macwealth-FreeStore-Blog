@@ -17,7 +17,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Curated perspectives on design systems, artificial intelligence, and intellectual focus in the digital age.
+              Transformational teachings on biblical wisdom, kingdom stewardship, spiritual illumination, and mindset renewal by Dr. Isaiah Macwealth.
             </p>
           </div>
 
@@ -29,22 +29,22 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/" className="hover:text-white transition-colors">
-                  Latest Stories
-                </Link>
-              </li>
-              <li>
-                <Link href="/popular" className="hover:text-white transition-colors">
-                  Popular Reads
-                </Link>
-              </li>
-              <li>
-                <Link href="/categories" className="hover:text-white transition-colors">
-                  Categories
+                  Home
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="hover:text-white transition-colors">
-                  About Editorial
+                  About FreeStore
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="hover:text-white transition-colors">
+                  Privacy Policy
                 </Link>
               </li>
             </ul>
@@ -57,23 +57,28 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/?category=ai-machine-learning" className="hover:text-white transition-colors">
-                  AI & Machine Learning
+                <Link href="/?category=wealth-stewardship" className="hover:text-white transition-colors">
+                  Wealth & Stewardship
                 </Link>
               </li>
               <li>
-                <Link href="/?category=design-systems" className="hover:text-white transition-colors">
-                  Design Systems
+                <Link href="/?category=spiritual-growth" className="hover:text-white transition-colors">
+                  Spiritual Growth
                 </Link>
               </li>
               <li>
-                <Link href="/?category=technology" className="hover:text-white transition-colors">
-                  Technology
+                <Link href="/?category=mindset-success" className="hover:text-white transition-colors">
+                  Mindset & Success
                 </Link>
               </li>
               <li>
-                <Link href="/?category=modern-lifestyle" className="hover:text-white transition-colors">
-                  Modern Lifestyle
+                <Link href="/?category=vision-purpose" className="hover:text-white transition-colors">
+                  Vision & Purpose
+                </Link>
+              </li>
+              <li>
+                <Link href="/?category=discipline-order" className="hover:text-white transition-colors">
+                  Discipline & Order
                 </Link>
               </li>
             </ul>
@@ -85,7 +90,7 @@ export function Footer() {
               Stay Informed
             </h4>
             <p className="text-xs text-slate-500 mb-3">
-              Subscribe to get curated editorial insights delivered directly to your inbox.
+              Subscribe to receive inspirational teachings, wisdom strategies, and kingdom insights delivered directly to your inbox.
             </p>
             <NewsletterForm variant="footer" />
           </div>
@@ -95,14 +100,11 @@ export function Footer() {
         <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-600">
           <p>&copy; {new Date().getFullYear()} Macwealth FreeStore. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/about" className="hover:text-slate-400 transition-colors">
+            <Link href="/privacy" className="hover:text-slate-400 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/about" className="hover:text-slate-400 transition-colors">
+            <Link href="/privacy#terms" className="hover:text-slate-400 transition-colors">
               Terms of Service
-            </Link>
-            <Link href="/admin" className="hover:text-indigo-400 transition-colors">
-              Admin Portal
             </Link>
           </div>
         </div>

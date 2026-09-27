@@ -6,10 +6,8 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const links = [
-  { label: "Latest", href: "/" },
-  { label: "Popular", href: "/popular" },
-  { label: "Categories", href: "/categories" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 function NavbarInner() {
