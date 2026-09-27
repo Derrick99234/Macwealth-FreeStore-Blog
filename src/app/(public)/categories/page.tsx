@@ -6,6 +6,12 @@ import Link from "next/link";
 
 export const revalidate = 60;
 
+export const metadata = {
+  title: "Categories & Curated Archives | Macwealth FreeStore Blog",
+  description:
+    "Explore curated archives of spiritual wisdom, financial intelligence, prayer strategies, and personal development teachings by Dr. Isaiah Macwealth.",
+};
+
 export default async function CategoriesPage() {
   const categories = await prisma.category.findMany({
     orderBy: { postCount: "desc" },
@@ -58,7 +64,7 @@ export default async function CategoriesPage() {
                       0{idx + 1}
                     </span>
                     <span className="text-xs bg-[#171b26] border border-white/10 text-slate-300 px-2.5 py-1 rounded-full">
-                      {cat._count?.posts || cat.postCount} Stories
+                      {cat._count?.posts || cat.postCount} {((cat._count?.posts || cat.postCount) === 1) ? "Teaching" : "Teachings"}
                     </span>
                   </div>
 
@@ -66,7 +72,7 @@ export default async function CategoriesPage() {
                     {cat.name}
                   </h3>
                   <p className="text-xs text-slate-400 leading-relaxed mb-6">
-                    {cat.description || "In-depth explorations and critical analysis."}
+                    {cat.description || "Transformational spiritual teachings and practical wisdom."}
                   </p>
                 </div>
 
@@ -86,7 +92,7 @@ export default async function CategoriesPage() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Stay ahead of every topic
+              Grow in wisdom across every dimension of life
             </h2>
             <NewsletterForm variant="banner" />
           </div>

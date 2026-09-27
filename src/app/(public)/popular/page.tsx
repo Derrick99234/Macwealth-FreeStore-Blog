@@ -8,6 +8,12 @@ import { calculateReadTime } from "@/lib/utils";
 
 export const revalidate = 60;
 
+export const metadata = {
+  title: "Impactful Teachings & Popular Messages | Macwealth FreeStore Blog",
+  description:
+    "Read the most impactful, widely discussed teachings on spiritual growth, financial wisdom, and purposeful living by Dr. Isaiah Macwealth.",
+};
+
 function formatViews(count: number) {
   if (!count || count <= 0) return null;
   if (count >= 1000) {

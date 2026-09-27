@@ -22,10 +22,10 @@ export async function GET() {
 
   const [blogName, blogDescription, blogLogo, seoTitle, seoDescription, admin] = await Promise.all([
     getSetting("blogName", process.env.NEXT_PUBLIC_SITE_NAME || "Macwealth FreeStore"),
-    getSetting("blogDescription", process.env.BLOG_DESCRIPTION || "A premium editorial platform for deep thinkers."),
+    getSetting("blogDescription", process.env.BLOG_DESCRIPTION || "Transformational teachings on biblical wisdom, kingdom stewardship, spiritual illumination, and mindset renewal by Dr. Isaiah Macwealth."),
     getSetting("blogLogo", process.env.BLOG_LOGO || ""),
-    getSetting("seoTitle", process.env.SEO_TITLE || "Macwealth FreeStore — Deep Reads on Design, Tech & Culture"),
-    getSetting("seoDescription", process.env.SEO_DESCRIPTION || ""),
+    getSetting("seoTitle", process.env.SEO_TITLE || "Macwealth FreeStore Blog — Spiritual Wisdom, Kingdom Wealth & Purpose"),
+    getSetting("seoDescription", process.env.SEO_DESCRIPTION || "Free life-transforming teachings, spiritual strategies, and kingdom literature by Prophet Dr. Isaiah Macwealth."),
     prisma.user.findFirst({
       where: { role: "ADMIN" },
       select: { name: true, email: true, image: true },

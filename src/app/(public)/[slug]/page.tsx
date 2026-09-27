@@ -1,14 +1,16 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import prisma from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ReadingProgressBar } from "@/components/ui/ReadingProgressBar";
 import Link from "next/link";
 import { DEFAULT_POST_IMAGE, DEFAULT_AI_IMAGE } from "@/lib/images";
 import { calculateReadTime, formatArticleHtml } from "@/lib/utils";
 
-function formatDate(d: string) {
+export const revalidate = 60;
+
+function formatDate(d: Date | string) {
   return new Date(d).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -16,72 +18,110 @@ function formatDate(d: string) {
   });
 }
 
-export default function ArticlePage() {
-  const params = useParams();
-  const [post, setPost] = useState<any>(null);
-  const [related, setRelated] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await prisma.post.findUnique({
+    where: { slug },
+    include: { author: true, category: true },
+  });
 
-  useEffect(() => {
-    fetch(`/api/posts/${params.slug}`)
-      .then((r) => r.json())
-      .then((data) => {
-        setPost(data.post);
-        setRelated(data.related || []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [params.slug]);
-
-  useEffect(() => {
-    const bar = document.getElementById("progress-bar");
-    if (!bar) return;
-
-    const onScroll = () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      bar.style.width = `${(winScroll / height) * 100}%`;
+  if (!post || post.status !== "PUBLISHED") {
+    return {
+      title: "Article Not Found | Macwealth FreeStore Blog",
     };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
-        <Navbar />
-        <div className="flex-grow flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-        <Footer />
-      </div>
-    );
   }
 
-  if (!post) {
-    return (
-      <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
-        <Navbar />
-        <div className="flex-grow flex flex-col items-center justify-center text-center p-6">
-          <h1 className="text-2xl font-bold text-white mb-2">Article Not Found</h1>
-          <p className="text-slate-400 mb-6">The story you are looking for does not exist or has been moved.</p>
-          <Link href="/" className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-500 transition-colors">
-            Return Home
-          </Link>
-        </div>
-        <Footer />
-      </div>
-    );
+  const title = `${post.title} | Macwealth FreeStore Blog`;
+  const description =
+    post.seoDescription ||
+    post.excerpt ||
+    "Free life-transforming spiritual teaching and kingdom wisdom by Dr. Isaiah Macwealth.";
+  const ogImage = post.featuredImage || DEFAULT_POST_IMAGE;
+
+  return {
+    title,
+    description,
+    keywords: post.tags ? post.tags.split(",").map((t) => t.trim()) : undefined,
+    authors: [{ name: post.author?.name || "Dr. Isaiah Macwealth" }],
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `https://macwealthfreestore.com/${post.slug}`,
+      siteName: "Macwealth FreeStore",
+      publishedTime: post.publishedAt?.toISOString() || post.createdAt.toISOString(),
+      authors: [post.author?.name || "Dr. Isaiah Macwealth"],
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 675,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+
+export default async function ArticlePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  const post = await prisma.post.findUnique({
+    where: { slug },
+    include: {
+      author: { select: { id: true, name: true, image: true } },
+      category: true,
+    },
+  });
+
+  if (!post || post.status !== "PUBLISHED") {
+    notFound();
   }
+
+  // Increment view count
+  await prisma.post.update({
+    where: { id: post.id },
+    data: { viewCount: { increment: 1 } },
+  });
+
+  // Fetch related posts in same category
+  const related = await prisma.post.findMany({
+    where: {
+      status: "PUBLISHED",
+      id: { not: post.id },
+      ...(post.categoryId ? { categoryId: post.categoryId } : {}),
+    },
+    take: 3,
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      excerpt: true,
+      content: true,
+      featuredImage: true,
+      publishedAt: true,
+      createdAt: true,
+    },
+  });
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-slate-100 flex flex-col">
-      {/* Reading Progress Indicator */}
-      <div
-        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-sky-400 z-[60] transition-all duration-75"
-        id="progress-bar"
-      />
+      <ReadingProgressBar />
 
       <Navbar />
 
@@ -104,14 +144,14 @@ export default function ArticlePage() {
               {post.title}
             </h1>
 
-            {/* Author and Metadata Bar - NO DOTS */}
+            {/* Author and Metadata Bar */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center font-bold text-white text-xs">
                   {post.author?.name?.charAt(0) || "M"}
                 </div>
                 <span className="font-semibold text-slate-200">
-                  {post.author?.name || "Macwealth Editorial"}
+                  {post.author?.name || "Dr. Isaiah Macwealth"}
                 </span>
               </div>
 
@@ -155,10 +195,12 @@ export default function ArticlePage() {
             </div>
             <div className="text-center sm:text-left">
               <h3 className="text-base font-bold text-white mb-1">
-                Written by {post.author?.name || "Macwealth Editorial"}
+                Written by {post.author?.name || "Dr. Isaiah Macwealth"}
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed mb-3">
-                Contributor and editorial researcher covering technology, deep work, and human-centric software paradigms.
+                {post.author?.name === "Dr. Isaiah Macwealth"
+                  ? "Prophet, author, and founder of Macwealth FreeStore, dedicated to empowering believers globally with free access to kingdom teachings, financial wisdom, and spiritual illumination."
+                  : "Macwealth FreeStore Editorial Contributor sharing transformational insights on kingdom stewardship, spiritual growth, and biblical wisdom."}
               </p>
               <div className="flex justify-center sm:justify-start gap-3 text-xs text-indigo-400">
                 <Link href="/" className="hover:underline">
@@ -172,7 +214,7 @@ export default function ArticlePage() {
         {/* Related Posts Section */}
         {related.length > 0 && (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 border-t border-white/[0.06]">
-            <h2 className="text-xl font-bold text-white mb-6">Related Stories</h2>
+            <h2 className="text-xl font-bold text-white mb-6">Related Teachings</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((item) => (
                 <article

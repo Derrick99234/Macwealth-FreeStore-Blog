@@ -8,6 +8,12 @@ import { calculateReadTime } from "@/lib/utils";
 
 export const revalidate = 60; // Revalidate every 60s
 
+export const metadata = {
+  title: "Macwealth FreeStore Blog | Spiritual Wisdom, Kingdom Wealth & Purpose",
+  description:
+    "Explore life-changing teachings, free spiritual book chapters, kingdom financial strategies, and mindset transformation resources by Dr. Isaiah Macwealth.",
+};
+
 export default async function HomePage({
   searchParams,
 }: {
@@ -88,7 +94,7 @@ export default async function HomePage({
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute top-4 left-4 bg-indigo-600/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
-                  Featured Story
+                  Featured Teaching
                 </div>
               </div>
 
@@ -184,7 +190,7 @@ export default async function HomePage({
             <h2 className="text-xl font-bold tracking-tight text-white">
               {selectedCategory
                 ? `Articles in ${selectedCategory.replace(/-/g, " ")}`
-                : "Latest Perspectives"}
+                : "Latest Teachings & Insights"}
             </h2>
             <span className="text-xs text-slate-500 font-medium">
               Showing {posts.length} {posts.length === 1 ? "article" : "articles"}
@@ -198,7 +204,7 @@ export default async function HomePage({
               </span>
               <p className="text-slate-400 text-base">No articles found matching your criteria.</p>
               <Link href="/" className="mt-4 inline-block text-xs font-medium text-indigo-400 hover:underline">
-                View all stories
+                View all teachings
               </Link>
             </div>
           ) : (

@@ -66,7 +66,7 @@ export default function AdminDashboard() {
   const cats: CatItem[] = (data.categoryDistribution || []).map((c: any) => ({
     name: c.name,
     percent: totalPosts ? Math.round((c.postCount / totalPosts) * 100) : 0,
-    color: c.name === "Technology" ? "bg-primary" : c.name === "Design" ? "bg-secondary" : c.name === "Philosophy & Ethics" ? "bg-tertiary" : "bg-outline-variant",
+    color: c.name.includes("Wealth") ? "bg-primary" : c.name.includes("Spiritual") ? "bg-secondary" : c.name.includes("Mindset") ? "bg-tertiary" : "bg-outline-variant",
   }));
 
   return (

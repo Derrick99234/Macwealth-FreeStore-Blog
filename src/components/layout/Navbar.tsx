@@ -6,6 +6,9 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const links = [
+  { label: "Home", href: "/" },
+  { label: "Categories", href: "/categories" },
+  { label: "Popular", href: "/popular" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -85,7 +88,7 @@ function NavbarInner() {
             </span>
             <input
               className="pl-9 pr-8 py-2 bg-[#121620] border border-white/[0.08] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all w-48 sm:w-60 lg:w-72 focus:w-80"
-              placeholder="Search stories..."
+              placeholder="Search teachings, wisdom, books..."
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -159,7 +162,7 @@ function NavbarInner() {
             </span>
             <input
               className="w-full pl-9 pr-8 py-2 bg-[#121620] border border-white/[0.08] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-              placeholder="Search stories..."
+              placeholder="Search teachings, wisdom, books..."
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

@@ -1,8 +1,8 @@
 const BASE = "https://lh3.googleusercontent.com/aida-public";
 export const SUPABASE_STORAGE_URL = "https://gmmbxzqgjjecvjmodaag.supabase.co/storage/v1/object/public/blog_image";
-export const DEFAULT_POST_IMAGE = `${SUPABASE_STORAGE_URL}/hero-illustration.jpg`;
-export const DEFAULT_AI_IMAGE = `${SUPABASE_STORAGE_URL}/ai-creative.jpg`;
-export const DEFAULT_FOCUS_IMAGE = `${SUPABASE_STORAGE_URL}/deep-focus.jpg`;
+export const DEFAULT_POST_IMAGE = `${SUPABASE_STORAGE_URL}/7-money-habits-editorial.jpg`;
+export const DEFAULT_AI_IMAGE = `${SUPABASE_STORAGE_URL}/deepening-quiet-time-editorial.jpg`;
+export const DEFAULT_FOCUS_IMAGE = `${SUPABASE_STORAGE_URL}/setting-order-next-level-editorial.jpg`;
 
 export const images = {
   home: {
