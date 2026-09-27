@@ -18,9 +18,6 @@ export default function AboutPage() {
           <div className="bg-gradient-to-br from-[#121622] via-[#0f121a] to-[#0c0e14] border border-white/[0.08] rounded-3xl p-8 sm:p-14 relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 max-w-3xl space-y-4">
-              <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
-                Our Mission &amp; Purpose
-              </span>
               <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
                 About <span className="text-indigo-400">Macwealth FreeStore</span>
               </h1>
