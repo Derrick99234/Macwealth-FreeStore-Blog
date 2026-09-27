@@ -16,11 +16,6 @@ export default function ContactPage() {
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 w-full">
         {/* Header Hero */}
         <section className="mb-14 text-center max-w-3xl mx-auto">
-          <div className="inline-block mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
-              Connect With Us
-            </span>
-          </div>
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
             Contact <span className="text-indigo-400">Macwealth FreeStore</span>
           </h1>

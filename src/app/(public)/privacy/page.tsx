@@ -15,11 +15,6 @@ export default function PrivacyPage() {
       <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 w-full">
         {/* Header Hero */}
         <section className="mb-12 text-center">
-          <div className="inline-block mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">
-              Legal & Privacy
-            </span>
-          </div>
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
             Privacy Policy &amp; Terms
           </h1>
